@@ -1,8 +1,8 @@
 # HSOreCTF
 
-Source code for the [HSOreCTF.com]() website.
+Source code for the [HSOreCTF.tech]() website.
 
-![healthcheck](https://healthchecks.io/badge/fd6a8ec9-b3da-4bab-983a-183f2d/5Ll6vyEb-2/HSOreCTF.com.svg)
+![healthcheck](https://healthchecks.io/badge/fd6a8ec9-b3da-4bab-983a-183f2d/5Ll6vyEb-2/HSOreCTF.tech.svg)
 
 ## Development Workflow
 
