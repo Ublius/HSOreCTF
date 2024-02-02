@@ -15,8 +15,8 @@ import (
 	"github.com/spf13/viper"
 	"go.mau.fi/util/dbutil"
 
-	"github.com/Ublius/HSOreCTF/hsorectf.tech/database"
-	"github.com/Ublius/HSOreCTF/hsorectf.tech/internal"
+	"github.com/Ublius/HSOreCTF/database"
+	"github.com/Ublius/HSOreCTF/internal"
 )
 
 func main() {
