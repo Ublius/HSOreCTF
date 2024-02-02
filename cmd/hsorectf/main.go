@@ -15,8 +15,8 @@ import (
 	"github.com/spf13/viper"
 	"go.mau.fi/util/dbutil"
 
-	"github.com/ColoradoSchoolOfMines/mineshspc.com/database"
-	"github.com/ColoradoSchoolOfMines/mineshspc.com/internal"
+	"github.com/Ublius/HSOreCTF/hsorectf.tech/database"
+	"github.com/Ublius/HSOreCTF/hsorectf.tech/internal"
 )
 
 func main() {
@@ -25,10 +25,10 @@ func main() {
 	if os.Getenv("LOG_CONSOLE") != "" {
 		log = log.Output(zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: time.RFC3339})
 	}
-	log.Info().Msg("mineshspc.com backend starting...")
+	log.Info().Msg("hsorectf.tech backend starting...")
 
 	// Setup configuration parsing
-	viper.SetEnvPrefix("mineshspc")
+	viper.SetEnvPrefix("hsorectf")
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
 	viper.SetConfigName("config")
@@ -48,7 +48,7 @@ func main() {
 	}
 
 	// Open the database
-	viper.SetDefault("db", "./mineshspc.db")
+	viper.SetDefault("db", "./hsorectf.db")
 	dbPath := viper.GetString("db")
 	log.Info().Str("db_path", dbPath).Msg("opening database...")
 	rawDB, err := dbutil.NewWithDialect(dbPath, "sqlite3")
@@ -59,7 +59,7 @@ func main() {
 
 	db := database.NewDatabase(rawDB)
 	if err := db.DB.Upgrade(); err != nil {
-		log.Fatal().Err(err).Msg("failed to upgrade the mineshspc.com database")
+		log.Fatal().Err(err).Msg("failed to upgrade the hsorectf.tech database")
 	}
 
 	// Make sure to exit cleanly
