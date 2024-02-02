@@ -1,0 +1,12 @@
+config.yaml
+credentials.json
+token.json
+secret_key
+result
+
+# Executables
+HSOreCTF.com
+/HSOreCTF
+
+# Database
+HSOreCTF.db
