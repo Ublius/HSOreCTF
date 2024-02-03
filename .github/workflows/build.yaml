@@ -6,7 +6,15 @@ on:
 env:
   HOST: morak.sumnerevans.com
   GHCR_REGISTRY: ghcr.io
+<<<<<<< Updated upstream
   GHCR_REGISTRY_IMAGE: "ghcr.io/Ublius/HSOreCTF"
+=======
+<<<<<<< Updated upstream
+  GHCR_REGISTRY_IMAGE: "ghcr.io/coloradoschoolofmines/mineshspc.com"
+=======
+  GHCR_REGISTRY_IMAGE: "ghcr.io/Ublius/HSOreCTF"
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 jobs:
   lint:
@@ -38,12 +46,30 @@ jobs:
         with:
           go-version-file: "go.mod"
 
+<<<<<<< Updated upstream
       - run: go build ./cmd/hsorectf
 
       - uses: actions/upload-artifact@v4
         with:
           name: hsorectf
           path: hsorectf
+=======
+<<<<<<< Updated upstream
+      - run: go build ./cmd/mineshspc
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mineshspc
+          path: mineshspc
+=======
+      - run: go build ./cmd/hsorectf
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hsorectf
+          path: hsorectf
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
   build-nix:
     runs-on: ubuntu-latest
@@ -66,7 +92,15 @@ jobs:
 
       - uses: nixbuild/nix-quick-install-action@v26
 
+<<<<<<< Updated upstream
       - name: Update the hsorectf input
+=======
+<<<<<<< Updated upstream
+      - name: Update the mineshspc input
+=======
+      - name: Update the hsorectf input
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         run: |
           nix flake lock --update-input mineshspc
 
@@ -75,14 +109,32 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.PR_CREATOR_TOKEN }}
+<<<<<<< Updated upstream
           commit-message: "hsorectf: update to ${{ github.sha }}"
           title: "hsorectf: update to ${{ github.sha }}"
+=======
+<<<<<<< Updated upstream
+          commit-message: "mineshspc.com: update to ${{ github.sha }}"
+          title: "mineshspc.com: update to ${{ github.sha }}"
+=======
+          commit-message: "hsorectf: update to ${{ github.sha }}"
+          title: "hsorectf: update to ${{ github.sha }}"
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
           author: "Nevarro Bot <nevarro-bot@users.noreply.github.com>"
           body: |
             Automated changes by [create-pull-request](https://github.com/peter-evans/create-pull-request) GitHub action in the [mineshspc.com](https://github.com/ColoradoSchoolOfMines/mineshspc.com) repository.
 
             **Changes:** https://github.com/ColoradoSchoolOfMines/mineshspc.com/commits/${{ github.sha }}
+<<<<<<< Updated upstream
           branch: update-hsorectf
+=======
+<<<<<<< Updated upstream
+          branch: update-mineshspc
+=======
+          branch: update-hsorectf
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
           delete-branch: true
           reviewers: sumnerevans
 
