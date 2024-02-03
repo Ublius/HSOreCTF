@@ -6,7 +6,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 
-	"github.com/ColoradoSchoolOfMines/mineshspc.com/database"
+	"github.com/Ublius/HSOreCTF/database"
 )
 
 func (a *Application) GetLoggedInTeacher(r *http.Request) (*database.Teacher, error) {

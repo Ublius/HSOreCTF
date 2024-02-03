@@ -8,7 +8,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 
-	"github.com/ColoradoSchoolOfMines/mineshspc.com/database"
+	"github.com/Ublius/HSOreCTF/database"
 )
 
 func (a *Application) getStudentBySignFormsToken(ctx context.Context, tokenStr string) (*database.Student, error) {

@@ -13,7 +13,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 
-	"github.com/ColoradoSchoolOfMines/mineshspc.com/database"
+	"github.com/Ublius/HSOreCTF/database"
 )
 
 func (a *Application) createAdminLoginJWT(email string) *jwt.Token {

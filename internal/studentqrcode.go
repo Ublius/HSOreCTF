@@ -63,7 +63,7 @@ func (a *Application) sendQRCodeEmail(ctx context.Context, studentName, email st
 	texttemplate.Must(texttemplate.ParseFS(emailTemplates, "emailtemplates/ticket.txt")).Execute(&plainTextContent, templateData)
 	htmltemplate.Must(htmltemplate.ParseFS(emailTemplates, "emailtemplates/ticket.html")).Execute(&htmlContent, templateData)
 
-	from := mail.NewEmail("Mines HSPC Support", "support@mineshspc.com")
+	from := mail.NewEmail("HSOreCTF  Support", "support@hsorectf.tech")
 	message := mail.NewSingleEmail(from, subject, mail.NewEmail("", email), plainTextContent.String(), htmlContent.String())
 	message.ReplyTo = from
 

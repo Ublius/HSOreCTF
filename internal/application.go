@@ -12,9 +12,9 @@ import (
 	"github.com/rs/zerolog/hlog"
 	"github.com/sendgrid/sendgrid-go"
 
-	"github.com/ColoradoSchoolOfMines/mineshspc.com/database"
-	"github.com/ColoradoSchoolOfMines/mineshspc.com/internal/config"
-	"github.com/ColoradoSchoolOfMines/mineshspc.com/website"
+	"github.com/Ublius/HSOreCTF/database"
+	"github.com/Ublius/HSOreCTF/internal/config"
+	"github.com/Ublius/HSOreCTF/website"
 )
 
 type Application struct {

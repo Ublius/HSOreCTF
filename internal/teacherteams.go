@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/ColoradoSchoolOfMines/mineshspc.com/database"
+	"github.com/Ublius/HSOreCTF/database"
 )
 
 func (a *Application) GetTeacherTeamsTemplate(r *http.Request) map[string]any {
