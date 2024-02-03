@@ -6,7 +6,7 @@ on:
 env:
   HOST: morak.sumnerevans.com
   GHCR_REGISTRY: ghcr.io
-  GHCR_REGISTRY_IMAGE: "ghcr.io/coloradoschoolofmines/mineshspc.com"
+  GHCR_REGISTRY_IMAGE: "ghcr.io/Ublius/HSOreCTF"
 
 jobs:
   lint:
@@ -38,12 +38,12 @@ jobs:
         with:
           go-version-file: "go.mod"
 
-      - run: go build ./cmd/mineshspc
+      - run: go build ./cmd/hsorectf
 
       - uses: actions/upload-artifact@v4
         with:
-          name: mineshspc
-          path: mineshspc
+          name: hsorectf
+          path: hsorectf
 
   build-nix:
     runs-on: ubuntu-latest
@@ -66,7 +66,7 @@ jobs:
 
       - uses: nixbuild/nix-quick-install-action@v26
 
-      - name: Update the mineshspc input
+      - name: Update the hsorectf input
         run: |
           nix flake lock --update-input mineshspc
 
@@ -75,14 +75,14 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.PR_CREATOR_TOKEN }}
-          commit-message: "mineshspc.com: update to ${{ github.sha }}"
-          title: "mineshspc.com: update to ${{ github.sha }}"
+          commit-message: "hsorectf: update to ${{ github.sha }}"
+          title: "hsorectf: update to ${{ github.sha }}"
           author: "Nevarro Bot <nevarro-bot@users.noreply.github.com>"
           body: |
             Automated changes by [create-pull-request](https://github.com/peter-evans/create-pull-request) GitHub action in the [mineshspc.com](https://github.com/ColoradoSchoolOfMines/mineshspc.com) repository.
 
             **Changes:** https://github.com/ColoradoSchoolOfMines/mineshspc.com/commits/${{ github.sha }}
-          branch: update-mineshspc
+          branch: update-hsorectf
           delete-branch: true
           reviewers: sumnerevans
 
