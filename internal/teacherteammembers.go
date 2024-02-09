@@ -81,7 +81,7 @@ func (a *Application) sendStudentEmail(ctx context.Context, studentEmail, studen
 	texttemplate.Must(texttemplate.ParseFS(emailTemplates, "emailtemplates/studentverify.txt")).Execute(&plainTextContent, templateData)
 	htmltemplate.Must(htmltemplate.ParseFS(emailTemplates, "emailtemplates/studentverify.html")).Execute(&htmlContent, templateData)
 
-	subject := "Confirm Mines HSPC Registration"
+	subject := "Confirm Mines HSCTF Registration"
 	if isReminder {
 		subject = fmt.Sprintf("REMINDER: %s", subject)
 	}
@@ -163,7 +163,7 @@ func (a *Application) HandleTeacherAddMember(w http.ResponseWriter, r *http.Requ
 			"Error": map[string]any{
 				"General": htmltemplate.HTML(
 					`You have reached your quota for sent emails. Please email
-					<a href="mailto:support@mineshspc.com">support@mineshspc.com</a>
+					<a href="mailto:support@hsorectf.tech">support@hsorectf.tech</a>
 					if you need to add more members to any of your teams.`),
 			},
 			"StudentName":            studentName,

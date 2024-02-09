@@ -92,7 +92,7 @@ func (a *Application) HandleTeacherLogin(w http.ResponseWriter, r *http.Request)
 	texttemplate.Must(texttemplate.ParseFS(emailTemplates, "emailtemplates/teacherlogin.txt")).Execute(&plainTextContent, templateData)
 	htmltemplate.Must(htmltemplate.ParseFS(emailTemplates, "emailtemplates/teacherlogin.html")).Execute(&htmlContent, templateData)
 
-	err = a.SendEmail(log, "Log in to Mines HSPC Registration",
+	err = a.SendEmail(log, "Log in to Mines HSCTF Registration",
 		mail.NewEmail(teacher.Name, emailAddress),
 		plainTextContent.String(),
 		htmlContent.String())

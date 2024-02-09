@@ -1,16 +1,23 @@
 # All of these configuration values can be specified via environment variables
-# as well. Just prefix them with "MINESHSPC_" and upper-case the keys.
+# as well. Just prefix them with "HSORECTF_" and upper-case the keys.
 #
 # For example:
 #
-#   domain -> MINESHSPC_DOMAIN
-#   recaptcha.site_key -> MINESHSPC_RECAPTCHA_SITE_KEY
+#   domain -> HSORECTF_DOMAIN
+#   recaptcha.site_key -> HSORECTF_RECAPTCHA_SITE_KEY
 
 # This will disable sending emails, and instead print the value of the email to
 # stdout.
 dev_mode: false
 
+# This will disable/enable wether teams can register or not.
+registration_enabled: false
+
+# The SendGrid API key to use for sending emails.
 sendgrid_api_key: SENDGRID_API_KEY
+
+# The URL to use for the healthcheck endpoint.
+# healthcheck_url: /healthcheck
 
 # This will be shown in the footer right after the link to the source code.
 hosted_by_html: |

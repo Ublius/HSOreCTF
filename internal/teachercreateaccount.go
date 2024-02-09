@@ -120,7 +120,7 @@ func (a *Application) HandleTeacherCreateAccount(w http.ResponseWriter, r *http.
 	texttemplate.Must(texttemplate.ParseFS(emailTemplates, "emailtemplates/teachercreateaccount.txt")).Execute(&plainTextContent, templateData)
 	htmltemplate.Must(htmltemplate.ParseFS(emailTemplates, "emailtemplates/teachercreateaccount.html")).Execute(&htmlContent, templateData)
 
-	err = a.SendEmail(log, "Confirm Email to Log In to Mines HSPC Registration",
+	err = a.SendEmail(log, "Confirm Email to Log In to Mines HSCTF Registration",
 		mail.NewEmail(name, emailAddress),
 		plainTextContent.String(),
 		htmlContent.String())
