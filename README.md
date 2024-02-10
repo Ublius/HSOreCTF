@@ -8,7 +8,7 @@ Source code for the [HSOreCTF.tech]() website.
 
 Install Go and [gow](https://github.com/mitranim/gow). Then run:
 ```
-$ LOG_CONSOLE=1 gow -e=yaml,go,html,css run ./cmd/HSOreCTF/
+$ LOG_CONSOLE=1 gow -e=yaml,go,html,css run ./cmd/hsorectf/
 ```
 which will automatically restart the app whenever you make a change.
 
