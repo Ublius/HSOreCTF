@@ -105,13 +105,13 @@ func (a *Application) Start() {
 		Template     string
 		ArgGenerator func(r *http.Request) map[string]any
 	}{
-		"/":         {"home.html", noArgs},
-		"/info":     {"info.html", noArgs},
-		"/authors":  {"authors.html", noArgs},
+		"/":     {"home.html", noArgs},
+		"/info": {"info.html", noArgs},
+		// "/authors":  {"authors.html", noArgs},
 		"/rules":    {"rules.html", noArgs},
 		"/register": {"register.html", noArgs},
 		"/faq":      {"faq.html", noArgs},
-		"/archive":  {"archive.html", a.GetArchiveTemplate},
+		// "/archive":  {"archive.html", a.GetArchiveTemplate},
 	}
 	for path, templateInfo := range staticPages {
 		r.Get(path, a.ServeTemplate(a.Log, templateInfo.Template, templateInfo.ArgGenerator))
