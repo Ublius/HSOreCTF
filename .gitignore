@@ -3,6 +3,8 @@ credentials.json
 token.json
 secret_key
 result
+*.perm
+*.cert
 
 # Executables
 HSOreCTF.tech
