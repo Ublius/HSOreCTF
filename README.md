@@ -2,7 +2,7 @@
 
 Source code for the [HSOreCTF.tech]() website.
 
-![healthcheck](https://healthchecks.io/badge/fd6a8ec9-b3da-4bab-983a-183f2d/5Ll6vyEb-2/HSOreCTF.tech.svg)
+![healthcheck]( https://healthchecks.io/badge/01b7201d-dab8-4530-8754-58cd26/ITZPiwk3-2/HSOreCTF.svg)
 
 ## Development Workflow
 
