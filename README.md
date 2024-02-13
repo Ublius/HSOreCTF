@@ -1,6 +1,6 @@
 # HSOreCTF
 
-Source code for the [http://HSOreCTF.tech]() website.
+Source code for the [HSOreCTF.tech](http://HSOreCTF.tech) website.
 
 ![healthcheck]( https://healthchecks.io/badge/01b7201d-dab8-4530-8754-58cd26/ITZPiwk3-2/HSOreCTF.svg)
 
