@@ -9,17 +9,15 @@ import (
 func (d *Database) GetStudentByEmail(ctx context.Context, email string) (*Student, error) {
 	var student Student
 	var parentEmail, signatory, dietaryRestrictions sql.NullString
-	var campusTour sql.NullBool
 	err := d.DB.QueryRowContext(ctx, `
-		SELECT teamid, email, name, age, parentemail, signatory, previouslyparticipated,
-			emailconfirmed, liabilitywaiver, computerusewaiver,
-			campustour, dietaryrestrictions, qrcodesent, checkedin
+		SELECT teamid, email, name, age, parentemail, signatory, ctfdpassword,
+		EmailConfirmed, liabilitywaiver, computerusewaiver, dietaryrestrictions, qrcodesent, checkedin
 		FROM students
 		WHERE email = $1
 	`, email).Scan(&student.TeamID, &student.Email, &student.Name, &student.Age,
-		&parentEmail, &signatory, &student.PreviouslyParticipated, &student.EmailConfirmed,
+		&parentEmail, &signatory, &student.CTFdPassword, &student.EmailConfirmed,
 		&student.LiabilitySigned, &student.ComputerUseWaiverSigned,
-		&campusTour, &dietaryRestrictions, &student.QRCodeSent, &student.CheckedIn)
+		&dietaryRestrictions, &student.QRCodeSent, &student.CheckedIn)
 	if err != nil {
 		return nil, err
 	}
@@ -36,27 +34,24 @@ func (d *Database) GetStudentByEmail(ctx context.Context, email string) (*Studen
 		student.DietaryRestrictions = dietaryRestrictions.String
 	}
 
-	if campusTour.Valid {
-		student.CampusTour = campusTour.Bool
-	}
+	// if campusTour.Valid {
+	// 	student.CampusTour = campusTour.Bool
+	// }
 
 	return &student, err
 }
 
-func (d *Database) ConfirmStudent(ctx context.Context, email string, campusTour bool, dietaryRestrictions, parentEmail string) error {
+func (d *Database) ConfirmStudent(ctx context.Context, email string, dietaryRestrictions, parentEmail string) error {
 	_, err := d.DB.ExecContext(ctx, `
 		UPDATE students
-		SET emailconfirmed = true, campustour = $1, dietaryrestrictions = $2, parentemail = $3
-		WHERE email = $4
-	`, campusTour, dietaryRestrictions, parentEmail, email)
+		SET emailconfirmed = true, dietaryrestrictions = $1, parentemail = $2
+		WHERE email = $3
+	`, dietaryRestrictions, parentEmail, email)
 	return err
 }
 
-func (d *Database) SignFormsForStudent(ctx context.Context, email, signatory string, computerUse bool) error {
-	computerUseQuery := ""
-	if computerUse {
-		computerUseQuery = "computerusewaiver = true,"
-	}
+func (d *Database) SignFormsForStudent(ctx context.Context, email, signatory string) error {
+	computerUseQuery := "computerusewaiver = true,"
 	q := fmt.Sprintf(`
 		UPDATE students
 		SET liabilitywaiver = true, %s signatory = $1

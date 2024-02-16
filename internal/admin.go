@@ -71,32 +71,35 @@ func (a *Application) GetAdminTeamsTemplate(r *http.Request) map[string]any {
 		return nil
 	}
 
+	var teams, students int
 	var beginnerTeams, advancedTeams int
 	var beginnerStudents, advancedStudents int
 	var beginnerInPersonTeams, advancedInPersonTeams int
 	var beginnerInPersonStudents, advancedInPersonStudents int
-	var campusTour, emailConfirmed, formsSigned int
+	var emailConfirmed, formsSigned int
 	for _, team := range teamsWithTeachers {
-		if team.Division == database.DivisionBeginner {
-			beginnerTeams++
-			beginnerStudents += len(team.Members)
-			if team.InPerson {
-				beginnerInPersonStudents += len(team.Members)
-				beginnerInPersonTeams++
-			}
-		} else {
-			advancedTeams++
-			advancedStudents += len(team.Members)
-			if team.InPerson {
-				advancedInPersonStudents += len(team.Members)
-				advancedInPersonTeams++
-			}
-		}
+		teams++
+		// if team.Division == database.DivisionBeginner {
+		// 	beginnerTeams++
+		// 	beginnerStudents += len(team.Members)
+		// 	if team.InPerson {
+		// 		beginnerInPersonStudents += len(team.Members)
+		// 		beginnerInPersonTeams++
+		// 	}
+		// } else {
+		// 	advancedTeams++
+		// 	advancedStudents += len(team.Members)
+		// 	if team.InPerson {
+		// 		advancedInPersonStudents += len(team.Members)
+		// 		advancedInPersonTeams++
+		// 	}
+		// }
 
 		for _, member := range team.Members {
-			if team.InPerson && member.CampusTour {
-				campusTour++
-			}
+			// if team.InPerson && member.CampusTour {
+			// 	campusTour++
+			// }
+			students++
 
 			if member.EmailConfirmed {
 				emailConfirmed++
@@ -138,9 +141,9 @@ func (a *Application) GetAdminTeamsTemplate(r *http.Request) map[string]any {
 			"TotalInPerson": beginnerInPersonStudents + advancedInPersonStudents,
 			"TotalRemote":   (beginnerStudents + advancedStudents) - (beginnerInPersonStudents + advancedInPersonStudents),
 		},
-		"TotalTeams":             beginnerTeams + advancedTeams,
-		"TotalStudents":          beginnerStudents + advancedStudents,
-		"CampusTourStudents":     campusTour,
+		"TotalTeams":    teams,
+		"TotalStudents": students,
+		// "CampusTourStudents":     campusTour,
 		"EmailConfirmedStudents": emailConfirmed,
 		"FormsSignedStudents":    formsSigned,
 	}
@@ -576,19 +579,19 @@ func (a *Application) HandleKattisParticipantsExport(w http.ResponseWriter, r *h
 		return
 	}
 
-	divStr := r.URL.Query().Get("div")
-	division, err := database.ParseDivision(divStr)
-	if err != nil {
-		a.Log.Err(err).Msg("invalid division")
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
+	// divStr := r.URL.Query().Get("div")
+	// division, err := database.ParseDivision(divStr)
+	// if err != nil {
+	// 	a.Log.Err(err).Msg("invalid division")
+	// 	w.WriteHeader(http.StatusInternalServerError)
+	// 	return
+	// }
 
 	writer := csv.NewWriter(w)
 	for _, team := range teamsWithTeachers {
-		if team.Division != division {
-			continue
-		}
+		// if team.Division != division {
+		// 	continue
+		// }
 		for _, member := range team.Members {
 			parts := []string{
 				member.Name,
@@ -627,24 +630,21 @@ func (a *Application) HandleKattisTeamsExport(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	divStr := r.URL.Query().Get("div")
-	division, err := database.ParseDivision(divStr)
-	if err != nil {
-		a.Log.Err(err).Msg("invalid division")
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
+	// divStr := r.URL.Query().Get("div")
+	// // division, err := database.ParseDivision(divStr)
+	// if err != nil {
+	// 	a.Log.Err(err).Msg("invalid division")
+	// 	w.WriteHeader(http.StatusInternalServerError)
+	// 	return
+	// }
 
 	writer := csv.NewWriter(w)
 	for _, team := range teamsWithTeachers {
-		if team.Division != division || len(team.Members) == 0 {
-			continue
-		}
+		// if team.Division != division || len(team.Members) == 0 {
+		// 	continue
+		// }
 
 		siteName := "Colorado School of Mines"
-		if !team.InPerson {
-			siteName = "Remote"
-		}
 		parts := []string{
 			team.Name,
 			siteName,

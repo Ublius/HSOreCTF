@@ -40,7 +40,7 @@
     <div class="row">
       <div class="col">
         <p>
-          <b>{{ .Data.Student.Name }}</b> has been registered for the CS@Mines HSCTF by
+          <b>{{ .Data.Student.Name }}</b> has been registered for the Oresec HSOreCTF by
           <b>{{ .Data.Teacher.Name }}</b>.
           In order to participate, you need to accept the following forms.
         </p>
@@ -76,7 +76,6 @@
               </div>
             </td>
           </tr>
-          {{ if .Data.NeedsComputerUseWaiver }}
             <tr>
               <td>
                 <a href="/static/HSPC_MinesMinorComputerUseWaiver_2023.pdf" target=_blank>Colorado School of Mines Minor's Computer Use Waiver Form</a>
@@ -92,7 +91,6 @@
                 </div>
               </td>
             </tr>
-          {{ end }}
         </tbody>
       </table>
       <div class="row my-4">

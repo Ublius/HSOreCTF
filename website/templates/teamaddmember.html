@@ -75,14 +75,25 @@
                     {{ with .Data.StudentEmail }}value="{{ . }}"{{ end }}
                   />
                   <label for="team-name">Student Email</label>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col">
+                <div class="form-floating">
+                  <input type="text" class="form-control col-12" name="student-ctfd" id="student-ctfd"
+                    placeholder="Student CTFd Password" required
+                    {{ with .Data.CTFdPassword }}value="{{ . }}"{{ end }}
+                  />
+                  <label for="team-name">CTFd Password</label>
                   <div id="student-email-help" class="form-text">
-                    If this student already has a Kattis account, enter the email associated with
-                    that account here.
+                    DO NOT PUT A USED PASSWORD HERE. PLACE A PASSWORD TO BE USED FOR THE CTFD ACCOUNT.
                   </div>
                 </div>
               </div>
             </div>
-            <div class="row">
+  
+            <!-- <div class="row">
               <div class="col">
                 This student
                 <div class="btn-group" role="group" aria-label="Has the student previously participated">
@@ -98,9 +109,9 @@
                     />
                   <label class="btn btn-outline-primary" for="has-not">has not</label>
                 </div>
-                previously participated in a Mines HSCTF competition.
+                previously participated in a Oresec HSOreCTF competition.
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

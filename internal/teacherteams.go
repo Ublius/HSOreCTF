@@ -4,8 +4,6 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-
-	"github.com/Ublius/HSOreCTF/database"
 )
 
 func (a *Application) GetTeacherTeamsTemplate(r *http.Request) map[string]any {
@@ -102,9 +100,9 @@ func (a *Application) HandleTeacherTeamEdit(w http.ResponseWriter, r *http.Reque
 	// }
 	// teamDivisionExplanation := r.FormValue("team-division-explanation")
 
-	inPerson := true
-	teamDivision := database.DivisionBeginner
-	teamDivisionExplanation := "only one division"
+	// inPerson := true
+	// teamDivision := database.DivisionBeginner
+	// teamDivisionExplanation := "only one division"
 
 	teamIDStr := r.URL.Query().Get("team_id")
 	var teamID uuid.UUID
@@ -121,21 +119,21 @@ func (a *Application) HandleTeacherTeamEdit(w http.ResponseWriter, r *http.Reque
 		}
 
 		// Verify that the in-person-ness of the team did not change
-		team, err := a.DB.GetTeam(ctx, user.Email, teamID)
-		if err != nil {
-			log.Err(err).Msg("Failed to get team")
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
+		// team, err := a.DB.GetTeam(ctx, user.Email, teamID)
+		// if err != nil {
+		// 	log.Err(err).Msg("Failed to get team")
+		// 	w.WriteHeader(http.StatusInternalServerError)
+		// 	return
+		// }
 
-		if team.InPerson != inPerson {
-			log.Warn().Err(err).Msg("Cannot change in-person status of team")
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
+		// if team.InPerson != inPerson {
+		// 	log.Warn().Err(err).Msg("Cannot change in-person status of team")
+		// 	w.WriteHeader(http.StatusInternalServerError)
+		// 	return
+		// }
 	}
 
-	if err := a.DB.UpsertTeam(ctx, user.Email, teamID, teamName, teamDivision, inPerson, teamDivisionExplanation); err != nil {
+	if err := a.DB.UpsertTeam(ctx, user.Email, teamID, teamName); err != nil {
 		log.Err(err).Msg("Failed to upsert team")
 		// TODO report this error to the user and email admin
 		w.WriteHeader(http.StatusInternalServerError)

@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS teams (
   id                  TEXT NOT NULL,
   teacheremail        TEXT NOT NULL,
   name                TEXT NOT NULL,
-  division            TEXT NOT NULL,
-  divisionexplanation TEXT NOT NULL,
-  inperson            BOOLEAN NOT NULL,
+  -- division            TEXT NOT NULL,
+  -- divisionexplanation TEXT NOT NULL,
+  -- inperson            BOOLEAN NOT NULL,
 
   PRIMARY KEY (id, teacheremail)
 );
@@ -32,8 +32,9 @@ CREATE TABLE IF NOT EXISTS students (
   parentemail            TEXT,
   signatory              TEXT,
   dietaryrestrictions    TEXT,
-  campustour             BOOLEAN,
-  previouslyparticipated BOOLEAN NOT NULL DEFAULT FALSE,
+  ctfdpassword           TEXT NOT NULL,
+  -- campustour             BOOLEAN,
+  -- previouslyparticipated BOOLEAN NOT NULL DEFAULT FALSE,
   emailconfirmed         BOOLEAN NOT NULL DEFAULT FALSE,
 
   -- Waivers

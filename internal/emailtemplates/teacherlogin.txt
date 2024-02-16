@@ -1,6 +1,6 @@
 Hello {{ .Name }},
 
-Please click the following link to log in to your Mines HSCTF teacher account:
+Please click the following link to log in to your Oresec HSOreCTF teacher account:
 
 {{ .LoginURL }}
 
@@ -8,4 +8,4 @@ The above link will expire in 1 hour.
 
 If you did not just try to log in, please ignore this email.
 
-- The Mines HSCTF Staff
+- The Oresec HSOreCTF Staff

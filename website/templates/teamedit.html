@@ -77,12 +77,10 @@
             <!--     <div class="btn-group" role="group" aria-label="Select team location"> -->
             <!--       <input type="radio" class="btn-check" name="team-location" -->
             <!--         value="in-person" id="in-person" autocomplete="off" required -->
-            <!--         {{ with .Data.Team }}{{ if .InPerson }}checked{{ else }}disabled{{ end }}{{ end }}> -->
             <!--       <label class="btn btn-outline-primary" for="in-person">in person</label> -->
 
             <!--       <input type="radio" class="btn-check" name="team-location" -->
             <!--         value="remote" id="remote" autocomplete="off" required -->
-            <!--         {{ with .Data.Team }}{{ if not .InPerson }}checked{{ else }}disabled{{ end }}{{ end }}> -->
             <!--       <label class="btn btn-outline-primary" for="remote">remotely</label> -->
             <!--     </div> -->
             <!--     <div class="form-text"> -->
@@ -110,7 +108,7 @@
     <!--               <input type="radio" class="btn-check" name="team-division" -->
     <!--                 value="Beginner" id="beginner" autocomplete="off" required -->
     <!--                 {{ if not .RegistrationEnabled }}disabled{{ end }} -->
-    <!--                 {{ with .Data.Team }}{{ if eq .Division "Beginner" }}checked{{ end }}{{ end }}> -->
+          
     <!--               <label class="btn w-100 btn-outline-primary" for="beginner"> -->
     <!--                 <h4>Beginner</h4> -->
     <!--                 <p> -->
@@ -122,7 +120,6 @@
     <!--               <input type="radio" class="btn-check" name="team-division" -->
     <!--                 value="Advanced" id="advanced" autocomplete="off" required -->
     <!--                 {{ if not .RegistrationEnabled }}disabled{{ end }} -->
-    <!--                 {{ with .Data.Team }}{{ if eq .Division "Advanced" }}checked{{ end }}{{ end }}> -->
     <!--               <label class="btn w-100 btn-outline-primary" for="advanced"> -->
     <!--                 <h4>Advanced</h4> -->
     <!--                 <p> -->
@@ -138,7 +135,6 @@
     <!--               Why do you think that the division you selected is the best fit for this team? -->
     <!--             </label> -->
     <!--             <textarea class="form-control" name="team-division-explanation" -->
-    <!--               id="team-division-explanation" rows="4" required>{{ with .Data.Team }}{{ .DivisionExplanation }}{{ end }}</textarea> -->
     <!--             <div class="form-text"> -->
     <!--               We will use this information to ensure that teams are placed in the correct -->
     <!--               division. -->
@@ -160,7 +156,7 @@
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
                   <th scope="col">Age</th>
-                  <th scope="col">Previously Participated</th>
+                  <!-- <th scope="col">Previously Participated</th> -->
                   <th scope="col">Parent/Guardian Email</th>
                   <th scope="col" class="text-center">Delete</th>
                 </tr>
@@ -171,7 +167,6 @@
                     <th scope="row">{{ .Name }}</th>
                     <td>{{ .Email }}</td>
                     <td>{{ .Age }}</td>
-                    <td>{{ if .PreviouslyParticipated }}Yes{{ else }}No{{ end }}</td>
                     <td>{{ .ParentEmail }}</td>
                     <td class="text-center">
                       <a href="/register/teacher/team/delete?team_id={{ $t.ID }}&email={{ .Email }}"

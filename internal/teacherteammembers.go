@@ -81,7 +81,7 @@ func (a *Application) sendStudentEmail(ctx context.Context, studentEmail, studen
 	texttemplate.Must(texttemplate.ParseFS(emailTemplates, "emailtemplates/studentverify.txt")).Execute(&plainTextContent, templateData)
 	htmltemplate.Must(htmltemplate.ParseFS(emailTemplates, "emailtemplates/studentverify.html")).Execute(&htmlContent, templateData)
 
-	subject := "Confirm Mines HSCTF Registration"
+	subject := "Confirm Oresec HSOreCTF Registration"
 	if isReminder {
 		subject = fmt.Sprintf("REMINDER: %s", subject)
 	}
@@ -124,16 +124,18 @@ func (a *Application) HandleTeacherAddMember(w http.ResponseWriter, r *http.Requ
 	studentName := r.FormValue("student-name")
 	studentAgeStr := r.FormValue("student-age")
 	studentEmail := r.FormValue("student-email")
-	previouslyParticipated := r.FormValue("previously-participated") == "has"
+	studentCTFd := r.FormValue("student-ctfd")
+	// previouslyParticipated := r.FormValue("previously-participated") == "has"
 
 	if studentEmail == user.Email {
 		a.TeamAddMemberRenderer(w, r, map[string]any{
 			"Error": map[string]any{
 				"General": htmltemplate.HTML("You cannot join your own team."),
 			},
-			"StudentName":            studentName,
-			"StudentEmail":           studentEmail,
-			"PreviouslyParticipated": previouslyParticipated,
+			"StudentName":  studentName,
+			"StudentEmail": studentEmail,
+			"StudentCTFd":  studentCTFd,
+			// "PreviouslyParticipated": previouslyParticipated,
 		})
 		return
 	}
@@ -143,9 +145,10 @@ func (a *Application) HandleTeacherAddMember(w http.ResponseWriter, r *http.Requ
 			"Error": map[string]any{
 				"General": htmltemplate.HTML("Please enter an integer age without decimal places."),
 			},
-			"StudentName":            studentName,
-			"StudentEmail":           studentEmail,
-			"PreviouslyParticipated": previouslyParticipated,
+			"StudentName":  studentName,
+			"StudentEmail": studentEmail,
+			"StudentCTFd":  studentCTFd,
+			// "PreviouslyParticipated": previouslyParticipated,
 		})
 		return
 	}
@@ -166,10 +169,11 @@ func (a *Application) HandleTeacherAddMember(w http.ResponseWriter, r *http.Requ
 					<a href="mailto:support@hsorectf.tech">support@hsorectf.tech</a>
 					if you need to add more members to any of your teams.`),
 			},
-			"StudentName":            studentName,
-			"StudentAge":             studentAge,
-			"StudentEmail":           studentEmail,
-			"PreviouslyParticipated": previouslyParticipated,
+			"StudentName":  studentName,
+			"StudentAge":   studentAge,
+			"StudentEmail": studentEmail,
+			"StudentCTFd":  studentCTFd,
+			// "PreviouslyParticipated": previouslyParticipated,
 		})
 		return
 	}
@@ -207,21 +211,23 @@ func (a *Application) HandleTeacherAddMember(w http.ResponseWriter, r *http.Requ
 		Str("student_name", studentName).
 		Int("student_age", studentAge).
 		Str("student_email", studentEmail).
-		Bool("previously_participated", previouslyParticipated).
+		Str("student_ctfd", studentCTFd).
+		// Bool("previously_participated", previouslyParticipated).
 		Str("team_id", teamIDStr).
 		Logger()
 	log.Info().Msg("adding student")
-	if err := a.DB.AddTeamMember(ctx, teamID, studentName, studentAge, studentEmail, previouslyParticipated); err != nil {
+	if err := a.DB.AddTeamMember(ctx, teamID, studentName, studentAge, studentEmail, studentCTFd); err != nil {
 		var sqliteErr sqlite3.Error
 		if errors.As(err, &sqliteErr); sqliteErr.ExtendedCode == sqlite3.ErrConstraintUnique || sqliteErr.ExtendedCode == sqlite3.ErrConstraintPrimaryKey {
 			a.TeamAddMemberRenderer(w, r, map[string]any{
 				"Error": map[string]any{
 					"General": "That email address has already added to a team.",
 				},
-				"StudentName":            studentName,
-				"StudentAge":             studentAge,
-				"StudentEmail":           studentEmail,
-				"PreviouslyParticipated": previouslyParticipated,
+				"StudentName":  studentName,
+				"StudentAge":   studentAge,
+				"StudentEmail": studentEmail,
+				"StudentCTFd":  studentCTFd,
+				// "PreviouslyParticipated": previouslyParticipated,
 			})
 			return
 		}
