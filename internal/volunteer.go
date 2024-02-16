@@ -100,11 +100,11 @@ func (a *Application) HandleVolunteerLogin(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	plainTextContent := `Please click the following link to log in to your Mines HSCTF volunteer account:
+	plainTextContent := `Please click the following link to log in to your Oresec HSOreCTF volunteer account:
 
 	` + fmt.Sprintf("%s/volunteer/emaillogin?tok=%s", a.Config.Domain, signedTok)
 
-	err = a.SendEmail(log, "Log in as a Mines HSCTF Volunteer",
+	err = a.SendEmail(log, "Log in as a Oresec HSOreCTF Volunteer",
 		mail.NewEmail("", emailAddress),
 		plainTextContent,
 		"")

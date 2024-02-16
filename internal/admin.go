@@ -221,11 +221,11 @@ func (a *Application) HandleAdminLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	plainTextContent := `Please click the following link to log in to your Mines HSCTF admin account:
+	plainTextContent := `Please click the following link to log in to your Oresec HSOreCTF admin account:
 
 	` + fmt.Sprintf("%s/admin/emaillogin?tok=%s", a.Config.Domain, signedTok)
 
-	err = a.SendEmail(log, "Log in to Mines HSCTF Admin",
+	err = a.SendEmail(log, "Log in to Mines HSOreCTF Admin",
 		mail.NewEmail("", emailAddress),
 		plainTextContent,
 		"")
