@@ -9,7 +9,7 @@ import (
 func (d *Database) GetStudentByEmail(ctx context.Context, email string) (*Student, error) {
 	var student Student
 	var parentEmail, signatory, dietaryRestrictions sql.NullString
-	err := d.DB.QueryRowContext(ctx, `
+	err := d.DB.QueryRow(ctx, `
 		SELECT teamid, email, name, age, parentemail, signatory, ctfdpassword,
 		EmailConfirmed, liabilitywaiver, computerusewaiver, dietaryrestrictions, qrcodesent, checkedin
 		FROM students
@@ -42,7 +42,7 @@ func (d *Database) GetStudentByEmail(ctx context.Context, email string) (*Studen
 }
 
 func (d *Database) ConfirmStudent(ctx context.Context, email string, dietaryRestrictions, parentEmail string) error {
-	_, err := d.DB.ExecContext(ctx, `
+	_, err := d.DB.Exec(ctx, `
 		UPDATE students
 		SET emailconfirmed = true, dietaryrestrictions = $1, parentemail = $2
 		WHERE email = $3
@@ -57,12 +57,12 @@ func (d *Database) SignFormsForStudent(ctx context.Context, email, signatory str
 		SET liabilitywaiver = true, %s signatory = $1
 		WHERE email = $2
 	`, computerUseQuery)
-	_, err := d.DB.ExecContext(ctx, q, signatory, email)
+	_, err := d.DB.Exec(ctx, q, signatory, email)
 	return err
 }
 
 func (d *Database) GetAllDietaryRestrictions(ctx context.Context) ([]string, error) {
-	rows, err := d.DB.QueryContext(ctx, `
+	rows, err := d.DB.Query(ctx, `
 		SELECT dietaryrestrictions
 		FROM students
 		WHERE dietaryrestrictions != '' AND dietaryrestrictions IS NOT NULL
@@ -83,7 +83,7 @@ func (d *Database) GetAllDietaryRestrictions(ctx context.Context) ([]string, err
 }
 
 func (d *Database) MarkQRCodeSent(ctx context.Context, email string) error {
-	_, err := d.DB.ExecContext(ctx, `
+	_, err := d.DB.Exec(ctx, `
 		UPDATE students
 		SET qrcodesent = true
 		WHERE email = $1
@@ -92,7 +92,7 @@ func (d *Database) MarkQRCodeSent(ctx context.Context, email string) error {
 }
 
 func (d *Database) CheckInStudent(ctx context.Context, email string) error {
-	_, err := d.DB.ExecContext(ctx, `
+	_, err := d.DB.Exec(ctx, `
 		UPDATE students
 		SET checkedin = true
 		WHERE email = $1
