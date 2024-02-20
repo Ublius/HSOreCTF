@@ -50,7 +50,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
     - name: Deploy HSOreCTF
-      uses: appleboy/ssh-action@latest
+      uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
