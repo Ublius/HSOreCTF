@@ -4,10 +4,10 @@ name: "Build and Deploy"
 on:
   push:
 
-env:
+# env:
   # HOST:
-  GHCR_REGISTRY: ghcr.io
-  GHCR_REGISTRY_IMAGE: "ghcr.io/ublius/HSOreCTF"
+  # GHCR_REGISTRY: ghcr.io
+  # GHCR_REGISTRY_IMAGE: "ghcr.io/ublius/HSOreCTF"
 
 jobs:
   lint:
