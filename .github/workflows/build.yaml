@@ -7,7 +7,7 @@ on:
 env:
   # HOST:
   GHCR_REGISTRY: ghcr.io
-  GHCR_REGISTRY_IMAGE: "hcr.io/ublius/HSOreCTF"
+  GHCR_REGISTRY_IMAGE: "ghcr.io/ublius/HSOreCTF"
 
 jobs:
   lint:
