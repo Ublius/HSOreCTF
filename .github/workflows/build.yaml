@@ -59,4 +59,3 @@ jobs:
         script: |
           cd HSOreCTF
           ls
-    
