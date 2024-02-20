@@ -1,1 +1,43 @@
 # CI/CD 
+name: "Build and Deploy"
+
+on:
+  push:
+
+env:
+  # HOST: 
+  GHCR_REGISTRY: ghcr.io
+  GHCR_REGISTRY_IMAGE: "hcr.io/ublius/HSOreCTF"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: "go.mod"
+
+      - name: Install dependencies
+        run: |
+          go install golang.org/x/tools/cmd/goimports@latest
+          go install honnef.co/go/tools/cmd/staticcheck@latest
+          export PATH="$HOME/go/bin:$PATH"
+
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: "go.mod"
+
+      - run: go build ./cmd/hsorectf
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hsorectf
+          path: hsorectf
