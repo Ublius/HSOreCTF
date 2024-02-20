@@ -58,4 +58,4 @@ jobs:
 
         script: |
           cd HSOreCTF
-          ls
+          git pull
