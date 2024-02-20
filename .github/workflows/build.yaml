@@ -1,4 +1,4 @@
-# CI/CD 
+# CI/CD
 name: "Build and Deploy"
 
 on:
