@@ -5,7 +5,7 @@ on:
   push:
 
 env:
-  # HOST: 
+  # HOST:
   GHCR_REGISTRY: ghcr.io
   GHCR_REGISTRY_IMAGE: "hcr.io/ublius/HSOreCTF"
 

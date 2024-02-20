@@ -86,7 +86,7 @@ func (d *Database) scanTeamWithTeacherName(row dbutil.Scannable) (*TeamWithTeach
 func (d *Database) scanTeamStudents(ctx context.Context, team *Team) error {
 	studentRows, err := d.DB.Query(ctx, `
 		SELECT s.email, s.name, s.age, s.parentemail, s.signatory, s.ctfdpassword, s.emailconfirmed, 
-			s.liabilitywaiver, s.computerusewaiver, s.dietaryrestrictions, s.qrcodesent, s.checkedin
+		s.liabilitywaiver, s.computerusewaiver, s.dietaryrestrictions, s.qrcodesent, s.checkedin
 		FROM students s
 		WHERE s.teamid = ?
 	`, team.ID)
