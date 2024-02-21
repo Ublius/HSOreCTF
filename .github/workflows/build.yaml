@@ -1,13 +1,7 @@
-# CI/CD
 name: "Build and Deploy"
 
 on:
   push:
-
-# env:
-  # HOST:
-  # GHCR_REGISTRY: ghcr.io
-  # GHCR_REGISTRY_IMAGE: "ghcr.io/ublius/HSOreCTF"
 
 jobs:
   lint:
