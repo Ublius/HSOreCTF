@@ -557,6 +557,56 @@ func (a *Application) HandleSendQRCodes(w http.ResponseWriter, r *http.Request) 
 	}
 }
 
+func (a *Application) HandleSendCTFdPassword(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	log := hlog.FromRequest(r).With().Str("action", "send_parent_reminders").Logger()
+	tok, err := r.Cookie("admin_token")
+	if err != nil {
+		log.Warn().Err(err).Msg("failed to get admin token")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
+		log.Warn().Err(err).Msg("user is not admin!")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	teamsWithTeachers, err := a.DB.GetAdminTeamsWithTeacherName(ctx)
+	if err != nil {
+		log.Err(err).Msg("failed to get teams with teachers")
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	for _, team := range teamsWithTeachers {
+		for _, member := range team.Members {
+			if member.CTFDPasswordSent {
+				w.Write([]byte(fmt.Sprintf("Not sending CTFd Password to %s since we already sent to that email\n", member.Email)))
+			} else if member.EmailConfirmed {
+				w.Write([]byte(fmt.Sprintf("Sending QR code to %s\n", member.Email)))
+
+				go func(member database.Student) {
+					ctx := log.WithContext(context.Background())
+					err := a.sendQRCodeEmail(ctx, member.Name, member.Email)
+					if err != nil {
+						log.Err(err).Msg("failed to send CTFd Password email")
+						return
+					}
+
+					err = a.DB.MarkCTFDPasswordSent(ctx, member.Email)
+					if err != nil {
+						log.Err(err).Msg("failed to mark CTFd Password sent")
+					}
+				}(member)
+			} else {
+				w.Write([]byte(fmt.Sprintf("Not sending CTFd Password to %s since it's not confirmed\n", member.Email)))
+			}
+		}
+	}
+}
+
 func (a *Application) HandleKattisParticipantsExport(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	tok, err := r.Cookie("admin_token")

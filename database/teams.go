@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/uuid"
 	"go.mau.fi/util/dbutil"
+	"github.com/sethvargo/go-password/password"
 )
 
 type Division string
@@ -226,11 +227,15 @@ func (d *Database) UpsertTeam(ctx context.Context, teacherEmail string, teamID u
 	return err
 }
 
-func (d *Database) AddTeamMember(ctx context.Context, teamID uuid.UUID, name string, studentAge int, studentEmail string, studentCTFd string) error {
+func (d *Database) AddTeamMember(ctx context.Context, teamID uuid.UUID, name string, studentAge int, studentEmail string) error {
+	CTFdPassword, passerr := password.Generate(12, 2, 2, false, false)
+	if passerr != nil {
+		return passerr
+	}
 	_, err := d.DB.Exec(ctx, `
 		INSERT INTO students (teamid, name, age, email, ctfdpassword)
 		VALUES (?, ?, ?, ?, ?)
-	`, teamID, name, studentAge, studentEmail, studentCTFd)
+	`, teamID, name, studentAge, studentEmail, CTFdPassword)
 	return err
 }
 
