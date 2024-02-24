@@ -3,7 +3,7 @@ credentials.json
 token.json
 secret_key
 result
-*.perm
+*.pem
 *.cert
 
 # Executables
