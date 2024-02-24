@@ -223,9 +223,9 @@ func (a *Application) Start() {
 	r.Get("/admin/sendemailconfirmationreminders", a.HandleSendEmailConfirmationReminders)
 	r.Get("/admin/sendparentreminders", a.HandleSendParentReminders)
 	r.Get("/admin/sendqrcodes", a.HandleSendQRCodes)
-	r.Get("/admin/kattis/participants", a.HandleKattisParticipantsExport)
-	r.Get("/admin/kattis/teams", a.HandleKattisTeamsExport)
-	r.Get("/admin/zoom/breakout", a.HandleZoomBreakoutExport)
+	r.Get("/admin/sendctfdpasswords", a.HandleSendCTFdPasswords)
+	r.Get("/admin/ctfd/teams", a.HandleCTFdTeamsExport)
+	r.Get("/admin/ctfd/users", a.HandleCTFdUsersExport)
 
 	// Volunteer pages
 	r.Get("/volunteer", a.ServeTemplate(a.Log, "volunteerhome.html", noArgs))

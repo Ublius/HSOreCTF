@@ -174,7 +174,9 @@ func (a *Application) HandleStudentConfirmEmail(w http.ResponseWriter, r *http.R
 
 	// student.CampusTour = r.Form.Has("campus-tour")
 	student.DietaryRestrictions = r.FormValue("dietary-restrictions")
+	//student.CTFdUsername = r.FormValue("ctfd-username")
 
+	//TODO: Add a parameter to get CTFd Username and pass that to update the student CTFd Username
 	if err = a.DB.ConfirmStudent(ctx, student.Email, student.DietaryRestrictions, student.ParentEmail); err != nil {
 		log.Err(err).Msg("failed to confirm student")
 		w.WriteHeader(http.StatusBadRequest)

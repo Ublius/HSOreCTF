@@ -11,13 +11,13 @@ func (d *Database) GetStudentByEmail(ctx context.Context, email string) (*Studen
 	var parentEmail, signatory, dietaryRestrictions sql.NullString
 	err := d.DB.QueryRow(ctx, `
 		SELECT teamid, email, name, age, parentemail, signatory, ctfdpassword,
-		EmailConfirmed, liabilitywaiver, computerusewaiver, dietaryrestrictions, qrcodesent, checkedin
+		EmailConfirmed, liabilitywaiver, computerusewaiver, dietaryrestrictions, qrcodesent, checkedin, ctfdpasswordsent
 		FROM students
 		WHERE email = $1
 	`, email).Scan(&student.TeamID, &student.Email, &student.Name, &student.Age,
 		&parentEmail, &signatory, &student.CTFdPassword, &student.EmailConfirmed,
 		&student.LiabilitySigned, &student.ComputerUseWaiverSigned,
-		&dietaryRestrictions, &student.QRCodeSent, &student.CheckedIn)
+		&dietaryRestrictions, &student.QRCodeSent, &student.CheckedIn, &student.CTFdPasswordSent)
 	if err != nil {
 		return nil, err
 	}
@@ -41,6 +41,7 @@ func (d *Database) GetStudentByEmail(ctx context.Context, email string) (*Studen
 	return &student, err
 }
 
+// TODO: Add a paramter to get CTFd Username and pass that to update the student CTFd Username
 func (d *Database) ConfirmStudent(ctx context.Context, email string, dietaryRestrictions, parentEmail string) error {
 	_, err := d.DB.Exec(ctx, `
 		UPDATE students
@@ -86,6 +87,15 @@ func (d *Database) MarkQRCodeSent(ctx context.Context, email string) error {
 	_, err := d.DB.Exec(ctx, `
 		UPDATE students
 		SET qrcodesent = true
+		WHERE email = $1
+	`, email)
+	return err
+}
+
+func (d *Database) MarkCTFdPasswordSent(ctx context.Context, email string) error {
+	_, err := d.DB.Exec(ctx, `
+		UPDATE students
+		SET ctfdpasswordsent = true
 		WHERE email = $1
 	`, email)
 	return err

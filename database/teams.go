@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"go.mau.fi/util/dbutil"
 	"github.com/sethvargo/go-password/password"
+	"go.mau.fi/util/dbutil"
 )
 
 type Division string
@@ -62,8 +62,9 @@ type Student struct {
 	// CampusTour          bool
 	DietaryRestrictions string
 
-	QRCodeSent bool
-	CheckedIn  bool
+	QRCodeSent       bool
+	CheckedIn        bool
+	CTFdPasswordSent bool
 }
 
 func (d *Database) scanTeam(row dbutil.Scannable) (*Team, error) {
@@ -86,7 +87,7 @@ func (d *Database) scanTeamWithTeacherName(row dbutil.Scannable) (*TeamWithTeach
 
 func (d *Database) scanTeamStudents(ctx context.Context, team *Team) error {
 	studentRows, err := d.DB.Query(ctx, `
-		SELECT s.email, s.name, s.age, s.parentemail, s.signatory, s.ctfdpassword, s.emailconfirmed, s.liabilitywaiver, s.computerusewaiver, s.dietaryrestrictions, s.qrcodesent, s.checkedin
+		SELECT s.email, s.name, s.age, s.parentemail, s.signatory, s.ctfdpassword, s.emailconfirmed, s.liabilitywaiver, s.computerusewaiver, s.dietaryrestrictions, s.qrcodesent, s.checkedin, s.ctfdpasswordsent
 		FROM students s
 		WHERE s.teamid = ?
 	`, team.ID)
@@ -99,7 +100,7 @@ func (d *Database) scanTeamStudents(ctx context.Context, team *Team) error {
 		var parentEmail, signatory, dietaryRestrictions sql.NullString
 		// var campusTour sql.NullBool
 		if err := studentRows.Scan(&s.Email, &s.Name, &s.Age, &parentEmail, &signatory, &s.CTFdPassword, &s.EmailConfirmed,
-			&s.LiabilitySigned, &s.ComputerUseWaiverSigned, &dietaryRestrictions, &s.QRCodeSent, &s.CheckedIn); err != nil {
+			&s.LiabilitySigned, &s.ComputerUseWaiverSigned, &dietaryRestrictions, &s.QRCodeSent, &s.CheckedIn, &s.CTFdPasswordSent); err != nil {
 			return err
 		}
 
