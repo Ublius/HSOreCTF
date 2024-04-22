@@ -1,6 +1,7 @@
 module github.com/Ublius/HSOreCTF
 
 go 1.21.6
+toolchain go1.22.2
 
 require (
 	github.com/go-chi/chi/v5 v5.0.12
@@ -8,7 +9,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.22
 	github.com/rs/zerolog v1.32.0
 	github.com/sendgrid/sendgrid-go v3.14.0+incompatible
-	github.com/sethvargo/go-password v0.2.0
+	github.com/sethvargo/go-password v0.3.0
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 	github.com/spf13/viper v1.18.2
 	go.mau.fi/util v0.4.1
