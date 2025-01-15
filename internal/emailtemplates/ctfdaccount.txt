@@ -2,7 +2,7 @@ Hello {{ .StudentName }},
 
 This is your randomly generated password for the competition enviroment to participate in the Oresec HSOreCTF competition!
 
-This will be used to acces the webite via email and password when here at Mines on April 6th.
+This will be used to acces the webite via email and password when here at Mines on April 27th.
 
 Password: {{ .CTFdPassword }}
 
