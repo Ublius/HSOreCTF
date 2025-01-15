@@ -21,7 +21,7 @@ func (a *Application) SendEmail(log zerolog.Logger, subject string, to *mail.Ema
 		return nil
 	}
 
-	from := mail.NewEmail("HSOreCTF  Support", "support@hsorectf.tech")
+	from := mail.NewEmail("HSOreCTF  Support", "support@hsorectf.com")
 	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
 	message.ReplyTo = from
 	resp, err := a.SendGridClient.Send(message)

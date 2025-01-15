@@ -166,7 +166,7 @@ func (a *Application) HandleTeacherAddMember(w http.ResponseWriter, r *http.Requ
 			"Error": map[string]any{
 				"General": htmltemplate.HTML(
 					`You have reached your quota for sent emails. Please email
-					<a href="mailto:support@hsorectf.tech">support@hsorectf.tech</a>
+					<a href="mailto:support@hsorectf.com">support@hsorectf.com</a>
 					if you need to add more members to any of your teams.`),
 			},
 			"StudentName":  studentName,
