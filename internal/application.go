@@ -243,6 +243,5 @@ func (a *Application) Start() {
 
 	a.Log.Info().Msg("Listening on port 8090")
 	http.ListenAndServe(":8090", handler)
-	//http.ListenAndServeTLS(":443", "cert", "pem", handler)
 
 }
