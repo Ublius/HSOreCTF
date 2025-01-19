@@ -25,7 +25,7 @@ func main() {
 	if os.Getenv("LOG_CONSOLE") != "" {
 		log = log.Output(zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: time.RFC3339})
 	}
-	log.Info().Msg("hsorectf.tech backend starting...")
+	log.Info().Msg("hsorectf.com backend starting...")
 
 	// Setup configuration parsing
 	viper.SetEnvPrefix("hsorectf")
@@ -59,7 +59,7 @@ func main() {
 
 	db := database.NewDatabase(rawDB)
 	if err := db.DB.Upgrade(context.TODO()); err != nil {
-		log.Fatal().Err(err).Msg("failed to upgrade the hsorectf.tech database")
+		log.Fatal().Err(err).Msg("failed to upgrade the hsorectf.com database")
 	}
 
 	// Make sure to exit cleanly
