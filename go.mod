@@ -3,9 +3,9 @@ module github.com/Ublius/HSOreCTF
 go 1.21.6
 
 require (
+	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/go-chi/chi/v5 v5.2.0
 	github.com/golang-jwt/jwt/v4 v4.5.1
-	github.com/mattn/go-sqlite3 v1.14.22
 	github.com/rs/zerolog v1.33.0
 	github.com/sendgrid/sendgrid-go v3.16.0+incompatible
 	github.com/sethvargo/go-password v0.3.1
