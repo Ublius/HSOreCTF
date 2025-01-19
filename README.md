@@ -3,6 +3,7 @@
 Source code for the [hsorectf.com](http://hsorectf.com) website.
 
 ![healthcheck]( https://healthchecks.io/badge/01b7201d-dab8-4530-8754-58cd26/ITZPiwk3-2/HSOreCTF.svg)
+[![Build and Deploy](https://github.com/Ublius/HSOreCTF/actions/workflows/build.yaml/badge.svg)](https://github.com/Ublius/HSOreCTF/actions/workflows/build.yaml)
 
 ## Development Workflow
 
