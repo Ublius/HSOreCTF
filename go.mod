@@ -3,14 +3,14 @@ module github.com/Ublius/HSOreCTF
 go 1.21.6
 
 require (
-	github.com/go-chi/chi/v5 v5.1.0
-	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/mattn/go-sqlite3 v1.14.24
+	github.com/go-chi/chi/v5 v5.2.0
+	github.com/golang-jwt/jwt/v4 v4.5.1
 	github.com/rs/zerolog v1.33.0
 	github.com/sendgrid/sendgrid-go v3.16.0+incompatible
 	github.com/sethvargo/go-password v0.3.1
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
-	github.com/spf13/viper v1.18.2
+	github.com/spf13/viper v1.19.0
 	go.mau.fi/util v0.5.0
 )
 
@@ -21,7 +21,7 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
-	github.com/pelletier/go-toml/v2 v2.1.1 // indirect
+	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/rs/xid v1.5.0 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
