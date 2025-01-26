@@ -238,7 +238,7 @@ func (a *Application) HandleAdminLogin(w http.ResponseWriter, r *http.Request) {
 	} else {
 		log.Info().Msg("sent email")
 		http.SetCookie(w, &http.Cookie{Name: "admin_email", Value: emailAddress, Path: "/"})
-		w.Write([]byte("check your email for a login link"))
+		a.AdminConfirmEmailRenderer(w, r, map[string]any{"Email": emailAddress})
 	}
 }
 
@@ -446,10 +446,10 @@ func (a *Application) HandleSendEmailConfirmationReminders(w http.ResponseWriter
 	for _, team := range teamsWithTeachers {
 		for _, member := range team.Members {
 			if member.EmailConfirmed {
-				w.Write([]byte(fmt.Sprintf("Not resending confirmation info to %s because they already finished confirming\n", member.Email)))
+				fmt.Fprintf(w, "Not resending confirmation info to %s because they already finished confirming\n", member.Email)
 				continue
 			}
-			w.Write([]byte(fmt.Sprintf("Resending confirmation email to %s\n", member.Email)))
+			fmt.Fprintf(w, "Resending confirmation email to %s\n", member.Email)
 			go func(team *database.TeamWithTeacherName, member database.Student) {
 				ctx := log.WithContext(context.Background())
 				err := a.sendStudentEmail(ctx, member.Email, member.Name, team.TeacherName, team.Name, true)
@@ -489,14 +489,14 @@ func (a *Application) HandleSendParentReminders(w http.ResponseWriter, r *http.R
 	for _, team := range teamsWithTeachers {
 		for _, member := range team.Members {
 			if !member.EmailConfirmed {
-				w.Write([]byte(fmt.Sprintf("Not sending sign forms email for %s because they already signed the forms because the student hasn't confirmed their email yet\n", member.Email)))
+				fmt.Fprintf(w, "Not sending sign forms email for %s because they already signed the forms because the student hasn't confirmed their email yet\n", member.Email)
 				continue
 			}
 			if member.LiabilitySigned {
-				w.Write([]byte(fmt.Sprintf("Not resending sign forms email to %s (for %s) because they already signed the forms\n", member.ParentEmail, member.Email)))
+				fmt.Fprintf(w, "Not resending sign forms email to %s (for %s) because they already signed the forms\n", member.ParentEmail, member.Email)
 				continue
 			}
-			w.Write([]byte(fmt.Sprintf("Resending sign forms email to %s (for %s)\n", member.ParentEmail, member.Email)))
+			fmt.Fprintf(w, "Resending sign forms email to %s (for %s)\n", member.ParentEmail, member.Email)
 			go func(member database.Student) {
 				ctx := log.WithContext(context.Background())
 				err := a.sendParentEmail(ctx, &member, true)
@@ -535,9 +535,9 @@ func (a *Application) HandleSendQRCodes(w http.ResponseWriter, r *http.Request) 
 	for _, team := range teamsWithTeachers {
 		for _, member := range team.Members {
 			if member.QRCodeSent {
-				w.Write([]byte(fmt.Sprintf("Not sending QR code to %s since we already sent to that email\n", member.Email)))
+				fmt.Fprintf(w, "Not sending QR code to %s since we already sent to that email\n", member.Email)
 			} else if member.EmailConfirmed {
-				w.Write([]byte(fmt.Sprintf("Sending QR code to %s\n", member.Email)))
+				fmt.Fprintf(w, "Sending QR code to %s\n", member.Email)
 
 				go func(member database.Student) {
 					ctx := log.WithContext(context.Background())
@@ -553,7 +553,7 @@ func (a *Application) HandleSendQRCodes(w http.ResponseWriter, r *http.Request) 
 					}
 				}(member)
 			} else {
-				w.Write([]byte(fmt.Sprintf("Not sending QR code to %s since it's not confirmed\n", member.Email)))
+				fmt.Fprintf(w, "Not sending QR code to %s since it's not confirmed\n", member.Email)
 			}
 		}
 	}
@@ -585,9 +585,9 @@ func (a *Application) HandleSendCTFdPasswords(w http.ResponseWriter, r *http.Req
 	for _, team := range teamsWithTeachers {
 		for _, member := range team.Members {
 			if member.CTFdPasswordSent {
-				w.Write([]byte(fmt.Sprintf("Not sending CTFd Password to %s since we already sent to that email\n", member.Email)))
+				fmt.Fprintf(w, "Not sending CTFd Password to %s since we already sent to that email\n", member.Email)
 			} else if member.EmailConfirmed {
-				w.Write([]byte(fmt.Sprintf("Sending CTFd Password to %s\n", member.Email)))
+				fmt.Fprintf(w, "Sending CTFd Password to %s\n", member.Email)
 
 				go func(member database.Student) {
 					ctx := log.WithContext(context.Background())
@@ -603,7 +603,7 @@ func (a *Application) HandleSendCTFdPasswords(w http.ResponseWriter, r *http.Req
 					}
 				}(member)
 			} else {
-				w.Write([]byte(fmt.Sprintf("Not sending CTFd Password to %s since it's not confirmed\n", member.Email)))
+				fmt.Fprintf(w, "Not sending CTFd Password to %s since it's not confirmed\n", member.Email)
 			}
 		}
 	}
