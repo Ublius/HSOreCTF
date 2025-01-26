@@ -11,7 +11,6 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 	globallog "github.com/rs/zerolog/log"
 	"go.mau.fi/util/dbutil"
 	"go.mau.fi/util/exerrors"
@@ -39,11 +38,6 @@ func main() {
 		exerrors.PanicIfNotNil(f.Close())
 	}
 
-	if config.DevMode {
-		// Output the loaded configuration for debugging purposes
-		log.Info().Msgf("Loaded configuration: %+v\n", config)
-	}
-
 	// Configure logging
 	log := exerrors.Must(config.Logging.Compile())
 	defaultCtxLog := log.With().Bool("default_context_log", true).Caller().Logger()
@@ -51,6 +45,11 @@ func main() {
 	zerolog.CallerMarshalFunc = exzerolog.CallerWithFunctionName
 	zerolog.DefaultContextLogger = &defaultCtxLog
 	globallog.Logger = log.With().Bool("global_log", true).Caller().Logger()
+
+	if config.DevMode {
+		// Output the loaded configuration for debugging purposes
+		log.Info().Msgf("Loaded configuration: %+v\n", config)
+	}
 
 	log.Info().Msg("hsorectf.com backend starting...")
 
