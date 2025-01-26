@@ -102,7 +102,7 @@ func (a *Application) sendParentEmail(ctx context.Context, student *database.Stu
 	texttemplate.Must(texttemplate.ParseFS(emailTemplates, "emailtemplates/forms.txt")).Execute(&plainTextContent, templateData)
 	htmltemplate.Must(htmltemplate.ParseFS(emailTemplates, "emailtemplates/forms.html")).Execute(&htmlContent, templateData)
 
-	subject := "Sign forms to participate in Oresec HSOreCTF"
+	subject := "Sign forms to participate in OreSec HSOreCTF"
 	if isReminder {
 		subject = fmt.Sprintf("REMINDER: %s", subject)
 	}

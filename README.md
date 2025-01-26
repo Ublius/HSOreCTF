@@ -16,4 +16,4 @@ which will automatically restart the app whenever you make a change.
 ## License
 
 The code is licensed under AGPLv3+. All of the content of the website (besides
-the Colorado School of Mines logo) is Copyright (c) Mines Oresec 2023.
+the Colorado School of Mines logo) is Copyright (c) Mines OreSec 2025.

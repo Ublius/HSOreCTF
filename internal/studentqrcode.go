@@ -37,7 +37,7 @@ func (a *Application) getStudentQRCodeImage(email string) ([]byte, error) {
 }
 
 func (a *Application) sendQRCodeEmail(ctx context.Context, studentName, email string) error {
-	subject := "Oresec HSOreCTF Ticket"
+	subject := "OreSec HSOreCTF Ticket"
 	log := zerolog.Ctx(ctx).With().
 		Str("component", "send_email").
 		Interface("to", email).

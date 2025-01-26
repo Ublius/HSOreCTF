@@ -223,7 +223,7 @@ func (a *Application) HandleAdminLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	plainTextContent := `Please click the following link to log in to your Oresec HSOreCTF admin account:
+	plainTextContent := `Please click the following link to log in to your OreSec HSOreCTF admin account:
 
 	` + fmt.Sprintf("%s/admin/emaillogin?tok=%s", a.Config.Domain, signedTok)
 

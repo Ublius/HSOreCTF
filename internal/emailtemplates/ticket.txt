@@ -1,9 +1,9 @@
 Hello {{ .StudentName }},
 
-This QR code is your ticket to participate in the Oresec HSOreCTF competition!
+This QR code is your ticket to participate in the OreSec HSOreCTF competition!
 
 Please present this QR code when you arrive at Mines.
 
 If you have any questions, please reply to this email.
 
-- The Oresec HSOreCTF Staff
+- The OreSec HSOreCTF Staff

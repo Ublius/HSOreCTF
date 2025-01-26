@@ -22,7 +22,7 @@ func (a *Application) sendCTFdPasswordEmail(ctx context.Context, studentName, em
 	texttemplate.Must(texttemplate.ParseFS(emailTemplates, "emailtemplates/ctfdaccount.txt")).Execute(&plainTextContent, templateData)
 	htmltemplate.Must(htmltemplate.ParseFS(emailTemplates, "emailtemplates/ctfdaccount.html")).Execute(&htmlContent, templateData)
 
-	subject := "Oresec HSOreCTF CTFd Password"
+	subject := "OreSec HSOreCTF CTFd Password"
 	err := a.SendEmail(log, subject,
 		mail.NewEmail(studentName, email),
 		plainTextContent.String(),

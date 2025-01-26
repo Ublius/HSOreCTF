@@ -81,7 +81,7 @@ func (a *Application) sendStudentEmail(ctx context.Context, studentEmail, studen
 	texttemplate.Must(texttemplate.ParseFS(emailTemplates, "emailtemplates/studentverify.txt")).Execute(&plainTextContent, templateData)
 	htmltemplate.Must(htmltemplate.ParseFS(emailTemplates, "emailtemplates/studentverify.html")).Execute(&htmlContent, templateData)
 
-	subject := "Confirm Oresec HSOreCTF Registration"
+	subject := "Confirm OreSec HSOreCTF Registration"
 	if isReminder {
 		subject = fmt.Sprintf("REMINDER: %s", subject)
 	}

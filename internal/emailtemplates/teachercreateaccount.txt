@@ -1,6 +1,6 @@
 Hello {{ .Name }},
 
-Please confirm your email to create your Oresec HSOreCTF teacher account by clicking
+Please confirm your email to create your OreSec HSOreCTF teacher account by clicking
 on the following link:
 
 {{ .ConfirmURL }}
@@ -9,4 +9,4 @@ The above link will expire in 1 hour.
 
 If you did not just try to create an account, please ignore this email.
 
-- The Oresec HSOreCTF Staff
+- The OreSec HSOreCTF Staff
