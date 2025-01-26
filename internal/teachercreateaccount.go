@@ -35,6 +35,12 @@ type captchaResponse struct {
 }
 
 func (a *Application) verifyCaptcha(response string) error {
+	if a.Config.DevMode {
+		// Skip captcha verification in development mode
+		a.Log.Info().Msg("Skipping captcha verification in development mode")
+		return nil
+	}
+
 	form := url.Values{}
 	form.Add("secret", a.Config.Recaptcha.SecretKey)
 	form.Add("response", response)
