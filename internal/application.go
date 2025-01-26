@@ -106,8 +106,8 @@ func (a *Application) Start() {
 		Template     string
 		ArgGenerator func(r *http.Request) map[string]any
 	}{
-		"/{$}":      {"home.html", noArgs},
-		"/info":     {"info.html", noArgs},
+		"/{$}":  {"home.html", noArgs},
+		"/info": {"info.html", noArgs},
 		// "/authors":  {"authors.html", noArgs},
 		"/rules":    {"rules.html", noArgs},
 		"/register": {"register.html", noArgs},
@@ -142,7 +142,6 @@ func (a *Application) Start() {
 	a.ConfirmEmailRenderer = a.ServeTemplateExtra(a.Log, "confirmemail.html", a.GetEmailLoginTemplate)
 	a.VolunteerConfirmEmailRenderer = a.ServeTemplateExtra(a.Log, "volunteerconfirmemail.html", a.GetEmailLoginTemplate)
 	a.AdminConfirmEmailRenderer = a.ServeTemplateExtra(a.Log, "adminconfirmemail.html", a.GetEmailLoginTemplate)
-	
 	a.EmailLoginRenderer = a.ServeTemplateExtra(a.Log, "emaillogin.html", a.GetEmailLoginTemplate)
 	a.StudentConfirmInfoRenderer = a.ServeTemplateExtra(a.Log, "student.html", a.GetStudentConfirmInfoTemplate)
 	a.TeamAddMemberRenderer = a.ServeTemplateExtra(a.Log, "teamaddmember.html", a.GetTeacherAddMemberTemplate)
