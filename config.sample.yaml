@@ -1,10 +1,18 @@
-# All of these configuration values can be specified via environment variables
-# as well. Just prefix them with "HSORECTF_" and upper-case the keys.
-#
-# For example:
-#
-#   domain -> HSORECTF_DOMAIN
-#   recaptcha.site_key -> HSORECTF_RECAPTCHA_SITE_KEY
+# ===== Database Settings =====
+database:
+  # The database type. Only "sqlite3" is supported.
+  type: sqlite3
+  # The database URI.
+  #   SQLite: A raw file path is supported, but `file:<path>?_txlock=immediate` is recommended.
+  #           https://github.com/mattn/go-sqlite3#connection-string#
+  uri: hsorectf.db?_txlock=immediate
+  # Maximum number of connections. Mostly relevant for Postgres.
+  max_open_conns: 20
+  max_idle_conns: 2
+  # Maximum connection idle time and lifetime before they're closed. Disabled if null.
+  # Parsed with https://pkg.go.dev/time#ParseDuration
+  max_conn_idle_time: null
+  max_conn_lifetime: null
 
 # This will disable sending emails, and instead print the value of the email to
 # stdout.
@@ -17,7 +25,7 @@ registration_enabled: false
 sendgrid_api_key: SENDGRID_API_KEY
 
 # The URL to use for the healthcheck endpoint.
-# healthcheck_url: /healthcheck
+healthcheck_url: null
 
 # This will be shown in the footer right after the link to the source code.
 hosted_by_html: |
@@ -30,8 +38,16 @@ domain: http://localhost:8090
 jwt_secret_key_file: secret_key_file
 
 # The actual text of the secret key.
-jwt_secret_key: YOUR_VERY_SECURE_KEY
+jwt_secret_key: JWT_SECRET_KEY
 
 recaptcha:
   site_key: RECAPTCHA_SITE_KEY
   secret_key: RECAPTCHA_SECRET_KEY
+
+# ===== Logger Settings =====
+# See https://github.com/tulir/zeroconfig for details.
+logging:
+  min_level: debug
+  writers:
+    - type: stdout
+      format: pretty-colored
