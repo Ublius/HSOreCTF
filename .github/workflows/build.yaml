@@ -36,20 +36,20 @@ jobs:
           name: hsorectf
           path: hsorectf
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs:
-      - lint
-      - build
-    if: github.ref == 'refs/heads/main'
-    steps:
-    - name: Deploy HSOreCTF
-      uses: appleboy/ssh-action@v1.2.2
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - lint
+  #     - build
+  #   if: github.ref == 'refs/heads/main'
+  #   steps:
+  #   - name: Deploy HSOreCTF
+  #     uses: appleboy/ssh-action@v1.2.2
+  #     with:
+  #       host: ${{ secrets.SSH_HOST }}
+  #       username: ${{ secrets.SSH_USERNAME }}
+  #       key: ${{ secrets.SSH_KEY }}
 
-        script: |
-          cd HSOreCTF
-          git pull
+  #       script: |
+  #         cd HSOreCTF
+  #         git pull
