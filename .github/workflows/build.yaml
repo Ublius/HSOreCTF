@@ -38,12 +38,12 @@ jobs:
 
   deploy:
       runs-on: ubuntu-latest
-      needs: 
+      needs:
         - lint
         - build
       steps:
         - name: Send Webhook Notification
-          if: success() 
+          if: success()
           run: |
             curl -X POST ${{ secrets.WEBHOOK_URL }} \
               -H "Content-Type: application/json" \
