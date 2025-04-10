@@ -53,26 +53,26 @@ func (a *Application) GetArchiveTemplate(*http.Request) map[string]any {
 					},
 				},
 			},
-				{
-					Year: 2024,
-					RecapParagraphs: []string{
-						"This was the first year the compettion was put held! Only an In-Person competition was held, with prizes being awarded to: first, and second place teams.",
-						"The In-Person competition had 2 teams consisting of 8 total participants.",
-					},
-					Links: []Link{
-						{"", ""},
-					},
-					Results: []CompetitionResult{
-						{
-							Name: "In-Person",
-							Shortname: "In-Person",
-							Teams: []WinningTeam{
-								{"1st", "", "", ""},
-								{"2nd", "", "", ""},
-							},
+			{
+				Year: 2024,
+				RecapParagraphs: []string{
+					"This was the first year the compettion was put held! Only an In-Person competition was held, with prizes being awarded to: first, and second place teams.",
+					"The In-Person competition had 2 teams consisting of 8 total participants.",
+				},
+				Links: []Link{
+					{"", ""},
+				},
+				Results: []CompetitionResult{
+					{
+						Name:      "In-Person",
+						Shortname: "In-Person",
+						Teams: []WinningTeam{
+							{"1st", "", "", ""},
+							{"2nd", "", "", ""},
 						},
 					},
 				},
+			},
 			// 	{
 			// 		Year: 2021,
 			// 		RecapParagraphs: []string{
