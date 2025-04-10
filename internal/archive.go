@@ -35,7 +35,8 @@ func (a *Application) GetArchiveTemplate(*http.Request) map[string]any {
 			{
 				Year: 2025,
 				RecapParagraphs: []string{
-					"Write Description Here!",
+					"This was the second year the compettion was put on! Only an In-Person competition was held, with prizes being awarded to: first, second, and third place teams.",
+					"The In-Person competition had 12 teams consisting of 48 total participants.",
 				},
 				Links: []Link{
 					{"/static/solutions/2025-solutions.pdf", "Solution Sketch Slides"},
@@ -45,45 +46,33 @@ func (a *Application) GetArchiveTemplate(*http.Request) map[string]any {
 						Name:      "In-Person",
 						Shortname: "InPerson",
 						Teams: []WinningTeam{
-							{"1st", "CCHS Team B", "Cherry Creek High School", "Location"},
+							{"1st", "CCHS Team B", "Cherry Creek High School", "Greenwood Village, Colorado"},
 							{"2nd", "<script>alert(1)</script>", "School Name", "Location"},
 							{"3nd", "Good Question", "School Name", "Location"},
 						},
 					},
 				},
 			},
-			// 	{
-			// 		Year: 2022,
-			// 		RecapParagraphs: []string{
-			// 			"The 2022 competition was the first to feature two divisions: a beginner division and an advanced division. It was also the first hybrid competition with both remote and in-person contestants.",
-			// 			"The advanced division had 26 teams, while the beginner division had 39 teams. Due to the number of teams, we decided to give awards to first place through fourth place.",
-			// 		},
-			// 		Links: []Link{
-			// 			{"https://sumnerevans.com/posts/school/2022-hspc/", "Competition Recap and Solution Sketches"},
-			// 			{"https://mines22advanced.kattis.com/problems", "Advanced Problems"},
-			// 			{"https://mines22beginner.kattis.com/problems", "Beginner Problems"},
-			// 		},
-			// 		Results: []CompetitionResult{
-			// 			{
-			// 				Name: "Advanced",
-			// 				Teams: []WinningTeam{
-			// 					{"1st", "Pen A Team", "PEN Academy", "Cresskill, New Jersey"},
-			// 					{"2nd", "Cherry Creek Cobras", "Cherry Creek High School", "Greenwood Village, Colorado"},
-			// 					{"3nd", "River Hill Team 1", "River Hill High School", "Clarksville, Maryland"},
-			// 					{"4th", "The Spanish Inquisition", "Regis Jesuit High School", "Aurora, Colorado"},
-			// 				},
-			// 			},
-			// 			{
-			// 				Name: "Beginner",
-			// 				Teams: []WinningTeam{
-			// 					{"1st", "LLL", "Future Forward at Bollman", "Thornton, Colorado"},
-			// 					{"2nd", "Error 404: Name not found", "Colorado Academy", "Denver, Colorado"},
-			// 					{"3nd", "Liberty 1", "Liberty Common School", "Fort Collins, Colorado"},
-			// 					{"4th", "Cool Cats", "Arvada West High School", "Arvada, Colorado"},
-			// 				},
-			// 			},
-			// 		},
-			// 	},
+				{
+					Year: 2024,
+					RecapParagraphs: []string{
+						"This was the first year the compettion was put held! Only an In-Person competition was held, with prizes being awarded to: first, and second place teams.",
+						"The In-Person competition had 2 teams consisting of 8 total participants.",
+					},
+					Links: []Link{
+						{"", ""},
+					},
+					Results: []CompetitionResult{
+						{
+							Name: "In-Person",
+							Shortname: "In-Person",
+							Teams: []WinningTeam{
+								{"1st", "", "", ""},
+								{"2nd", "", "", ""},
+							},
+						},
+					},
+				},
 			// 	{
 			// 		Year: 2021,
 			// 		RecapParagraphs: []string{
