@@ -6,11 +6,10 @@
     <div class="col">
       <h1>Archive</h1>
       <p class="header-paragraph">
-        Since 2018, the CS@Mines High School Programming
+        Since 2024, the OreSec High School Capture the Flag
         Competition has provided high school students an opportunity to
-        demonstrate their programming and problem solving skills in a
-        competitive environment. For more information on all of our competitions
-        and past problems, view <a href="https://sumnerevans.com/tags/high-school-programming-competition/" target="_blank">competition summaries</a>.
+        demonstrate their cybersecurity skills in a
+        competitive environment.
       </p>
     </div>
   </div>
@@ -21,7 +20,8 @@
     <div class="row mb-4">
       <div class="col-lg-5 mt-4 mx-4">
           <h2>{{ .Year }}</h2>
-          {{- range .RecapParagraphs -}}<p>{{ . }}</p>{{- end -}}
+          <!-- {{- range .RecapParagraphs -}}<p>{{ . }}</p>{{- end -}} --> <!-- (If you want extra space use this line)--> 
+          {{- range .RecapParagraphs -}}{{ . }}{{- end -}}
       </div>
       <div class="col mt-5">
         <div class="accordion">

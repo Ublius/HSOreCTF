@@ -29,9 +29,9 @@
         <li class="nav-item">
             <a class='nav-link {{ if eq .PageName "faq"}}faq-link-active{{ end }}' id="faq-link" aria-current="page" href="/faq">FAQ</a>
         </li>
-        <!-- <li class="nav-item">
+        <li class="nav-item">
             <a class='nav-link {{ if eq .PageName "archive"}}archive-link-active{{ end }}' id="archive-link" aria-current="page" href="/archive">Archive</a>
-        </li> -->
+        </li>
       </ul>
       <div class="logged-in-user nav-link small text-secondary me-4">
         {{ with .Data.Username }}

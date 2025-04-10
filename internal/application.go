@@ -112,7 +112,7 @@ func (a *Application) Start() {
 		"/rules":    {"rules.html", noArgs},
 		"/register": {"register.html", noArgs},
 		"/faq":      {"faq.html", noArgs},
-		// "/archive":  {"archive.html", a.GetArchiveTemplate},
+		"/archive":  {"archive.html", a.GetArchiveTemplate},
 	}
 	for path, templateInfo := range staticPages {
 		router.HandleFunc("GET "+path, a.ServeTemplate(a.Log, templateInfo.Template, templateInfo.ArgGenerator))
