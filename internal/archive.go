@@ -46,7 +46,7 @@ func (a *Application) GetArchiveTemplate(*http.Request) map[string]any {
 						Name:      "In-Person",
 						Shortname: "InPerson",
 						Teams: []WinningTeam{
-							{"1st", "CCHS Team B", "Cherry Creek High School", "Greenwood Village, Colorado"},
+							{"1st", "CCHS Team B", "Cherry Creek High School", "Greenwood Village"},
 							{"2nd", "<script>alert(1)</script>", "School Name", "Location"},
 							{"3nd", "Good Question", "School Name", "Location"},
 						},
