@@ -54,6 +54,8 @@
                   <dd class="col-sm-8">{{ .Email }}</dd>
                   <dt class="col-sm-4">Age:</dt>
                   <dd class="col-sm-8">{{ .Age }}</dd>
+                  <dt class="col-sm-4">Previously Participated in HSOreCTF:</dt>
+                  <dd class="col-sm-8">{{ if .PreviouslyParticipated }}Yes{{ else }}No{{ end }}</dd>
                 </dl>
               {{ end }}
               <div class="row mt-4">

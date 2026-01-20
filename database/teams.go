@@ -47,14 +47,14 @@ type TeamWithTeacherName struct {
 }
 
 type Student struct {
-	TeamID       uuid.UUID
-	Email        string
-	Name         string
-	Age          int
-	ParentEmail  string
-	Signatory    string
-	CTFdPassword string
-	// PreviouslyParticipated  bool
+	TeamID                  uuid.UUID
+	Email                   string
+	Name                    string
+	Age                     int
+	ParentEmail             string
+	Signatory               string
+	CTFdPassword            string
+	PreviouslyParticipated  bool
 	LiabilitySigned         bool
 	ComputerUseWaiverSigned bool
 	EmailConfirmed          bool
@@ -87,7 +87,7 @@ func (d *Database) scanTeamWithTeacherName(row dbutil.Scannable) (*TeamWithTeach
 
 func (d *Database) scanTeamStudents(ctx context.Context, team *Team) error {
 	studentRows, err := d.DB.Query(ctx, `
-		SELECT s.email, s.name, s.age, s.parentemail, s.signatory, s.ctfdpassword, s.emailconfirmed, s.liabilitywaiver, s.computerusewaiver, s.dietaryrestrictions, s.qrcodesent, s.checkedin, s.ctfdpasswordsent
+		SELECT s.email, s.name, s.age, s.parentemail, s.signatory, s.previouslyparticipated, s.ctfdpassword, s.emailconfirmed, s.liabilitywaiver, s.computerusewaiver, s.dietaryrestrictions, s.qrcodesent, s.checkedin, s.ctfdpasswordsent
 		FROM students s
 		WHERE s.teamid = ?
 	`, team.ID)
@@ -99,7 +99,7 @@ func (d *Database) scanTeamStudents(ctx context.Context, team *Team) error {
 		var s Student
 		var parentEmail, signatory, dietaryRestrictions sql.NullString
 		// var campusTour sql.NullBool
-		if err := studentRows.Scan(&s.Email, &s.Name, &s.Age, &parentEmail, &signatory, &s.CTFdPassword, &s.EmailConfirmed,
+		if err := studentRows.Scan(&s.Email, &s.Name, &s.Age, &parentEmail, &signatory, &s.PreviouslyParticipated, &s.CTFdPassword, &s.EmailConfirmed,
 			&s.LiabilitySigned, &s.ComputerUseWaiverSigned, &dietaryRestrictions, &s.QRCodeSent, &s.CheckedIn, &s.CTFdPasswordSent); err != nil {
 			return err
 		}
@@ -228,15 +228,15 @@ func (d *Database) UpsertTeam(ctx context.Context, teacherEmail string, teamID u
 	return err
 }
 
-func (d *Database) AddTeamMember(ctx context.Context, teamID uuid.UUID, name string, studentAge int, studentEmail string) error {
+func (d *Database) AddTeamMember(ctx context.Context, teamID uuid.UUID, name string, studentAge int, studentEmail string, previouslyParticipated bool) error {
 	CTFdPassword, passerr := password.Generate(12, 2, 2, false, false)
 	if passerr != nil {
 		return passerr
 	}
 	_, err := d.DB.Exec(ctx, `
-		INSERT INTO students (teamid, name, age, email, ctfdpassword)
-		VALUES (?, ?, ?, ?, ?)
-	`, teamID, name, studentAge, studentEmail, CTFdPassword)
+		INSERT INTO students (teamid, name, age, email, previouslyparticipated, ctfdpassword)
+		VALUES (?, ?, ?, ?, ?, ?)
+	`, teamID, name, studentAge, studentEmail, previouslyParticipated, CTFdPassword)
 	return err
 }
 

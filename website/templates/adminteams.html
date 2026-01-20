@@ -60,7 +60,27 @@
             <!-- <li><b>Campus Tour Count:</b> {{ .Data.CampusTourStudents }}</li> -->
             <li><b>Email Confirmed Students:</b> {{ .Data.EmailConfirmedStudents }}</li>
             <li><b>Forms Signed Students:</b> {{ .Data.FormsSignedStudents }}</li>
+            <li><b>Checked In Students:</b> {{ .Data.CheckedInStudents }}</li>
           </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="row">
+    <div class="col m-4">
+      <div class="card">
+        <div class="card-header">
+          <b>Team Lists</b>
+        </div>
+        <div class="card-body">
+          <p>
+            <a href="/admin/api/team-list" download="team-list.txt" class="btn btn-outline-primary">
+              Team List
+            </a>
+            <a href="/admin/api/team-list?firsttime=true" download="first-time-team-list.txt" class="btn btn-outline-primary">
+              First Time Team List
+            </a>
+          </p>
         </div>
       </div>
     </div>
@@ -73,10 +93,10 @@
         </div>
         <div class="card-body">
           <p>
-            <a href="/admin/ctfd/users" download="ctfd-users.csv" class="btn btn-outline-primary">
+            <a href="/admin/api/ctfd/users" download="ctfd-users.csv" class="btn btn-outline-primary">
               CTFd Users CSV
             </a>
-            <a href="/admin/ctfd/teams" download="ctfd-teams.csv" class="btn btn-outline-primary">
+            <a href="/admin/api/ctfd/teams" download="ctfd-teams.csv" class="btn btn-outline-primary">
               CTFd Teams CSV
             </a>
           </p>
@@ -95,24 +115,24 @@
             <b>WARNING</b> pressing these buttons will send emails to many people IMMEDIATELY!
           </p>
           <p>
-            <a href="/admin/sendemailconfirmationreminders" class="btn btn-outline-danger">Send Email Confirmation Reminders</a>
+            <a href="/admin/api/sendemailconfirmationreminders" class="btn btn-outline-danger">Send Email Confirmation Reminders</a>
             <br>
             this will send reminder emails to every student that has not confirmed their email.
           </p>
           <p>
-            <a href="/admin/sendparentreminders" class="btn btn-outline-danger">Send Parent Reminders</a>
+            <a href="/admin/api/sendparentreminders" class="btn btn-outline-danger">Send Parent Reminders</a>
             <br>
             this will send reminder emails to every parent who has not signed the forms for their
             student.
           </p>
           <p>
-            <a href="/admin/sendqrcodes" class="btn btn-outline-danger">Send QR Codes</a>
+            <a href="/admin/api/sendqrcodes" class="btn btn-outline-danger">Send QR Codes</a>
             <br>
             this will send QR codes to the emails of all students. (It will only send if we haven't
             sent the QR code to that student yet.)
           </p>
           <p>
-            <a href="/admin/sendctfdpasswords" class="btn btn-outline-danger">Send CTFd Passwords</a>
+            <a href="/admin/api/sendctfdpasswords" class="btn btn-outline-danger">Send CTFd Passwords</a>
             <br>
             this will send CTFd passwords to the emails of all students. (It will only send if we haven't
             sent the CTFd password to that student yet.)
@@ -154,35 +174,58 @@
                   <tr>
                     <td class="align-middle w-50">
                       <b>{{ .Name }}</b>
+                      {{ if .PreviouslyParticipated }}
+                        <i class="fa fa-repeat"
+                          title="This student has previously participated in HSOreCTF"></i>
+                      {{ end }}
                       <p class="small text-secondary mb-0">
                         {{ .Email }}
                         {{ if .QRCodeSent }}
                           <i class="fa fa-qrcode {{ if .CheckedIn }}text-success{{ end }}"
                              title="QR code has been sent to this user{{ if .CheckedIn }} and the user has checked in{{ end }}"></i>
+                          {{ if not .CheckedIn }}
+                            <br>
+                            <small>
+                              <a href="/admin/api/manualcheckin?email={{ .Email }}"
+                                 title="Check in the student manually. Automatically approves all waivers.">
+                                Checkin Manually
+                              </a>
+                            </small>
+                          {{ end }}
                         {{ end }}
                         {{ if not .EmailConfirmed }}
                           <br>
                           <small>
-                            <a href="/admin/resendstudentemail?email={{ .Email }}">
+                            <a href="/admin/api/resendstudentemail?email={{ .Email }}">
                               Resend Student Email Confirmation
                             </a>
                             &bull;
-                            <a href="/admin/confirmationlink/student?email={{ .Email }}"
+                            <a href="/admin/api/confirmationlink/student?email={{ .Email }}"
                                title="Get the link for sending via a side-channel. Use if the student's email is blocking our emails.">
                               Get link
+                            </a>
+                            &bull;
+                            <a href="/admin/api/manualcheckin?email={{ .Email }}"
+                               title="Check in the student manually. Automatically approves all waivers.">
+                              Check-in Manually (WARNING: automatically approves all waivers)
                             </a>
                           </small>
                         {{ end }}
                         {{ if and .EmailConfirmed (not .LiabilitySigned) }}
                           <br>
                           <small>
-                            <a href="/admin/resendparentemail?email={{ .Email }}">
+                            <a href="/admin/api/resendparentemail?email={{ .Email }}">
                               Resend Parent Email ({{ .ParentEmail }})
                             </a>
                             &bull;
-                            <a href="/admin/confirmationlink/parent?email={{ .Email }}"
+                            <a href="/admin/api/confirmationlink/parent?email={{ .Email }}"
                                title="Get the link for sending via a side-channel. Use if the parent's email is blocking our emails.">
                               Get link
+                            </a>
+                            &bull;
+                            <a href="/admin/api/manualcheckin?email={{ .Email }}"
+                               title="Check in the student manually. Automatically approves all waivers.">
+                              Check-in Manually (WARNING: automatically approves all waivers)
                             </a>
                           </small>
                         {{ end }}

@@ -124,7 +124,7 @@ func (a *Application) HandleTeacherAddMember(w http.ResponseWriter, r *http.Requ
 	studentAgeStr := r.FormValue("student-age")
 	studentEmail := r.FormValue("student-email")
 	// studentCTFd := r.FormValue("student-ctfd")
-	// previouslyParticipated := r.FormValue("previously-participated") == "has"
+	previouslyParticipated := r.FormValue("previously-participated") == "has"
 
 	if studentEmail == user.Email {
 		a.TeamAddMemberRenderer(w, r, map[string]any{
@@ -134,7 +134,7 @@ func (a *Application) HandleTeacherAddMember(w http.ResponseWriter, r *http.Requ
 			"StudentName":  studentName,
 			"StudentEmail": studentEmail,
 			// "StudentCTFd":  studentCTFd,
-			// "PreviouslyParticipated": previouslyParticipated,
+			"PreviouslyParticipated": previouslyParticipated,
 		})
 		return
 	}
@@ -147,7 +147,7 @@ func (a *Application) HandleTeacherAddMember(w http.ResponseWriter, r *http.Requ
 			"StudentName":  studentName,
 			"StudentEmail": studentEmail,
 			// "StudentCTFd":  studentCTFd,
-			// "PreviouslyParticipated": previouslyParticipated,
+			"PreviouslyParticipated": previouslyParticipated,
 		})
 		return
 	}
@@ -172,7 +172,7 @@ func (a *Application) HandleTeacherAddMember(w http.ResponseWriter, r *http.Requ
 			"StudentAge":   studentAge,
 			"StudentEmail": studentEmail,
 			// "StudentCTFd":  studentCTFd,
-			// "PreviouslyParticipated": previouslyParticipated,
+			"PreviouslyParticipated": previouslyParticipated,
 		})
 		return
 	}
@@ -211,11 +211,11 @@ func (a *Application) HandleTeacherAddMember(w http.ResponseWriter, r *http.Requ
 		Int("student_age", studentAge).
 		Str("student_email", studentEmail).
 		// Str("student_ctfd", studentCTFd).
-		// Bool("previously_participated", previouslyParticipated).
+		Bool("previously_participated", previouslyParticipated).
 		Str("team_id", teamIDStr).
 		Logger()
 	log.Info().Msg("adding student")
-	if err := a.DB.AddTeamMember(ctx, teamID, studentName, studentAge, studentEmail); err != nil {
+	if err := a.DB.AddTeamMember(ctx, teamID, studentName, studentAge, studentEmail, previouslyParticipated); err != nil {
 		var sqliteErr sqlite3.Error
 		if errors.As(err, &sqliteErr); sqliteErr.ExtendedCode == sqlite3.ErrConstraintUnique || sqliteErr.ExtendedCode == sqlite3.ErrConstraintPrimaryKey {
 			a.TeamAddMemberRenderer(w, r, map[string]any{
@@ -226,7 +226,7 @@ func (a *Application) HandleTeacherAddMember(w http.ResponseWriter, r *http.Requ
 				"StudentAge":   studentAge,
 				"StudentEmail": studentEmail,
 				// "StudentCTFd":  studentCTFd,
-				// "PreviouslyParticipated": previouslyParticipated,
+				"PreviouslyParticipated": previouslyParticipated,
 			})
 			return
 		}
