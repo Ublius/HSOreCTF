@@ -7,9 +7,9 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/mailjet/mailjet-apiv3-go/v4"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/hlog"
-	"github.com/sendgrid/sendgrid-go"
 
 	"github.com/Ublius/HSOreCTF/database"
 	"github.com/Ublius/HSOreCTF/internal/config"
@@ -32,7 +32,7 @@ type Application struct {
 
 	TeacherCreateAccountRenderer func(w http.ResponseWriter, r *http.Request, extraData map[string]any)
 
-	SendGridClient *sendgrid.Client
+	MailjetClient *mailjet.Client
 }
 
 func NewApplication(log *zerolog.Logger, config config.Configuration, db *database.Database) *Application {
@@ -92,8 +92,8 @@ type renderInfo struct {
 }
 
 func (a *Application) Start() {
-	a.Log.Info().Msg("connecting to sendgrid")
-	a.SendGridClient = sendgrid.NewSendClient(a.Config.SendgridAPIKey)
+	a.Log.Info().Msg("connecting to mailjet")
+	a.MailjetClient = mailjet.NewMailjetClient(a.Config.MailjetAPIKey, a.Config.MailjetSecretKey)
 
 	a.Log.Info().Msg("Starting router")
 

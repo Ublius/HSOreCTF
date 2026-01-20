@@ -11,7 +11,6 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/rs/zerolog"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
 
 	"github.com/Ublius/HSOreCTF/database"
 )
@@ -108,7 +107,7 @@ func (a *Application) sendParentEmail(ctx context.Context, student *database.Stu
 	}
 
 	err = a.SendEmail(log, subject,
-		mail.NewEmail("", toAddress),
+		toAddress, "",
 		plainTextContent.String(),
 		htmlContent.String())
 	if err != nil {

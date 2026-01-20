@@ -12,7 +12,6 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/rs/zerolog/hlog"
 	"github.com/rs/zerolog/log"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
 	"github.com/sethvargo/go-password/password"
 
 	"github.com/Ublius/HSOreCTF/database"
@@ -228,7 +227,7 @@ func (a *Application) HandleAdminLogin(w http.ResponseWriter, r *http.Request) {
 	` + fmt.Sprintf("%s/admin/emaillogin?tok=%s", a.Config.Domain, signedTok)
 
 	err = a.SendEmail(log, "Log in to Mines HSOreCTF Admin",
-		mail.NewEmail("", emailAddress),
+		emailAddress, "",
 		plainTextContent,
 		"")
 	if err != nil {

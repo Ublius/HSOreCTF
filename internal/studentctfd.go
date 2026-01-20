@@ -7,7 +7,6 @@ import (
 	texttemplate "text/template"
 
 	"github.com/rs/zerolog"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 func (a *Application) sendCTFdPasswordEmail(ctx context.Context, studentName, email string, ctfdPassword string) error {
@@ -24,7 +23,7 @@ func (a *Application) sendCTFdPasswordEmail(ctx context.Context, studentName, em
 
 	subject := "OreSec HSOreCTF CTFd Password"
 	err := a.SendEmail(log, subject,
-		mail.NewEmail(studentName, email),
+		email, studentName,
 		plainTextContent.String(),
 		htmlContent.String())
 	if err != nil {

@@ -34,7 +34,8 @@ type Configuration struct {
 	DevMode bool `yaml:"dev_mode"`
 
 	Domain              string        `yaml:"domain"`
-	SendgridAPIKey      string        `yaml:"sendgrid_api_key"`
+	MailjetAPIKey       string        `yaml:"mailjet_api_key"`
+	MailjetSecretKey    string        `yaml:"mailjet_secret_key"`
 	HealthcheckURL      string        `yaml:"healthcheck_url"`
 	HostedByHTML        template.HTML `yaml:"hosted_by_html"`
 	RegistrationEnabled bool          `yaml:"registration_enabled"`
