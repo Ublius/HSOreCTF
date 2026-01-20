@@ -249,18 +249,6 @@ func (a *Application) HandleAdminLogin(w http.ResponseWriter, r *http.Request) {
 
 func (a *Application) HandleResendStudentEmail(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	tok, err := r.Cookie("admin_token")
-	if err != nil {
-		a.Log.Warn().Err(err).Msg("failed to get admin token")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
-		a.Log.Warn().Err(err).Msg("user is not admin!")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 
 	email := r.URL.Query().Get("email")
 	if email == "" {
@@ -306,18 +294,6 @@ func (a *Application) HandleResendStudentEmail(w http.ResponseWriter, r *http.Re
 
 func (a *Application) HandleResendParentEmail(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	tok, err := r.Cookie("admin_token")
-	if err != nil {
-		a.Log.Warn().Err(err).Msg("failed to get admin token")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
-		a.Log.Warn().Err(err).Msg("user is not admin!")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 
 	email := r.URL.Query().Get("email")
 	if email == "" {
@@ -349,19 +325,6 @@ func (a *Application) HandleResendParentEmail(w http.ResponseWriter, r *http.Req
 
 func (a *Application) HandleGetStudentEmailConfirmationLink(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	tok, err := r.Cookie("admin_token")
-	if err != nil {
-		a.Log.Warn().Err(err).Msg("failed to get admin token")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
-		a.Log.Warn().Err(err).Msg("user is not admin!")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
 	email := r.URL.Query().Get("email")
 	if email == "" {
 		a.Log.Warn().Msg("no email address provided in query string")
@@ -369,7 +332,7 @@ func (a *Application) HandleGetStudentEmailConfirmationLink(w http.ResponseWrite
 		return
 	}
 
-	_, err = a.DB.GetStudentByEmail(ctx, email)
+	_, err := a.DB.GetStudentByEmail(ctx, email)
 	if err != nil {
 		a.Log.Warn().Err(err).Msg("failed to get student by email")
 		w.WriteHeader(http.StatusBadRequest)
@@ -388,18 +351,6 @@ func (a *Application) HandleGetStudentEmailConfirmationLink(w http.ResponseWrite
 
 func (a *Application) HandleGetParentEmailConfirmationLink(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	tok, err := r.Cookie("admin_token")
-	if err != nil {
-		a.Log.Warn().Err(err).Msg("failed to get admin token")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
-		a.Log.Warn().Err(err).Msg("user is not admin!")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 
 	email := r.URL.Query().Get("email")
 	if email == "" {
@@ -408,7 +359,7 @@ func (a *Application) HandleGetParentEmailConfirmationLink(w http.ResponseWriter
 		return
 	}
 
-	_, err = a.DB.GetStudentByEmail(ctx, email)
+	_, err := a.DB.GetStudentByEmail(ctx, email)
 	if err != nil {
 		a.Log.Warn().Err(err).Msg("failed to get student by email")
 		w.WriteHeader(http.StatusBadRequest)
@@ -428,18 +379,6 @@ func (a *Application) HandleGetParentEmailConfirmationLink(w http.ResponseWriter
 func (a *Application) HandleSendEmailConfirmationReminders(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := hlog.FromRequest(r).With().Str("action", "send_email_confirmation_reminders").Logger()
-	tok, err := r.Cookie("admin_token")
-	if err != nil {
-		log.Warn().Err(err).Msg("failed to get admin token")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
-		log.Warn().Err(err).Msg("user is not admin!")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 
 	teamsWithTeachers, err := a.DB.GetAdminTeamsWithTeacherName(ctx)
 	if err != nil {
@@ -470,19 +409,6 @@ func (a *Application) HandleSendEmailConfirmationReminders(w http.ResponseWriter
 func (a *Application) HandleSendParentReminders(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := hlog.FromRequest(r).With().Str("action", "send_parent_reminders").Logger()
-
-	tok, err := r.Cookie("admin_token")
-	if err != nil {
-		log.Warn().Err(err).Msg("failed to get admin token")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
-		log.Warn().Err(err).Msg("user is not admin!")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 
 	teamsWithTeachers, err := a.DB.GetAdminTeamsWithTeacherName(ctx)
 	if err != nil {
@@ -517,18 +443,6 @@ func (a *Application) HandleSendParentReminders(w http.ResponseWriter, r *http.R
 func (a *Application) HandleSendQRCodes(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := hlog.FromRequest(r).With().Str("action", "send_parent_reminders").Logger()
-	tok, err := r.Cookie("admin_token")
-	if err != nil {
-		log.Warn().Err(err).Msg("failed to get admin token")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
-		log.Warn().Err(err).Msg("user is not admin!")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 
 	teamsWithTeachers, err := a.DB.GetAdminTeamsWithTeacherName(ctx)
 	if err != nil {
@@ -567,18 +481,6 @@ func (a *Application) HandleSendQRCodes(w http.ResponseWriter, r *http.Request) 
 func (a *Application) HandleSendCTFdPasswords(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := hlog.FromRequest(r).With().Str("action", "send_parent_reminders").Logger()
-	tok, err := r.Cookie("admin_token")
-	if err != nil {
-		log.Warn().Err(err).Msg("failed to get admin token")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
-		log.Warn().Err(err).Msg("user is not admin!")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 
 	teamsWithTeachers, err := a.DB.GetAdminTeamsWithTeacherName(ctx)
 	if err != nil {
@@ -616,18 +518,6 @@ func (a *Application) HandleSendCTFdPasswords(w http.ResponseWriter, r *http.Req
 
 func (a *Application) HandleCTFdUsersExport(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	tok, err := r.Cookie("admin_token")
-	if err != nil {
-		a.Log.Warn().Err(err).Msg("failed to get admin token")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
-		a.Log.Warn().Err(err).Msg("user is not admin!")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 
 	teamsWithTeachers, err := a.DB.GetAdminTeamsWithTeacherName(ctx)
 	if err != nil {
@@ -657,18 +547,6 @@ func (a *Application) HandleCTFdUsersExport(w http.ResponseWriter, r *http.Reque
 
 func (a *Application) HandleCTFdTeamsExport(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	tok, err := r.Cookie("admin_token")
-	if err != nil {
-		a.Log.Warn().Err(err).Msg("failed to get admin token")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
-		a.Log.Warn().Err(err).Msg("user is not admin!")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 
 	teamsWithTeachers, err := a.DB.GetAdminTeamsWithTeacherName(ctx)
 	if err != nil {
@@ -692,40 +570,15 @@ func (a *Application) HandleCTFdTeamsExport(w http.ResponseWriter, r *http.Reque
 
 func (a *Application) HandleManualCheckin(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	tok, err := r.Cookie("admin_token")
-	if err != nil {
-		a.Log.Warn().Err(err).Msg("failed to get admin token")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
-		a.Log.Warn().Err(err).Msg("user is not admin!")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 
 	email := r.URL.Query().Get("email")
 	a.DB.SignFormsForStudent(ctx, email, "SIGNED IN PERSON")
 	a.DB.CheckInStudent(ctx, email)
-	w.Write([]byte("Checked in " + email))
+	http.Redirect(w, r, "/admin/teams", http.StatusSeeOther)
 }
 
 func (a *Application) HandleTeamList(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	tok, err := r.Cookie("admin_token")
-	if err != nil {
-		a.Log.Warn().Err(err).Msg("failed to get admin token")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
-		a.Log.Warn().Err(err).Msg("user is not admin!")
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
 	onlyFirstTime := r.URL.Query().Get("firsttime") == "true"
 
 	teamsWithTeachers, err := a.DB.GetAdminTeamsWithTeacherName(ctx)
