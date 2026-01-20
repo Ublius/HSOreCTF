@@ -9,7 +9,6 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/rs/zerolog/log"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
 
 	"github.com/Ublius/HSOreCTF/database"
 )
@@ -105,7 +104,7 @@ func (a *Application) HandleVolunteerLogin(w http.ResponseWriter, r *http.Reques
 	` + fmt.Sprintf("%s/volunteer/emaillogin?tok=%s", a.Config.Domain, signedTok)
 
 	err = a.SendEmail(log, "Log in as a OreSec HSOreCTF Volunteer",
-		mail.NewEmail("", emailAddress),
+		emailAddress, "",
 		plainTextContent,
 		"")
 	if err != nil {

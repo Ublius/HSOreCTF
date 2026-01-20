@@ -5,13 +5,12 @@ import (
 	"encoding/base64"
 	"fmt"
 	htmltemplate "html/template"
-	"net/http"
 	"strings"
 	texttemplate "text/template"
 
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/mailjet/mailjet-apiv3-go/v4"
 	"github.com/rs/zerolog"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
 	qrcode "github.com/skip2/go-qrcode"
 )
 
@@ -63,31 +62,54 @@ func (a *Application) sendQRCodeEmail(ctx context.Context, studentName, email st
 	texttemplate.Must(texttemplate.ParseFS(emailTemplates, "emailtemplates/ticket.txt")).Execute(&plainTextContent, templateData)
 	htmltemplate.Must(htmltemplate.ParseFS(emailTemplates, "emailtemplates/ticket.html")).Execute(&htmlContent, templateData)
 
-	from := mail.NewEmail("HSOreCTF  Support", "support@hsorectf.com")
-	message := mail.NewSingleEmail(from, subject, mail.NewEmail("", email), plainTextContent.String(), htmlContent.String())
-	message.ReplyTo = from
-
-	attachment := mail.NewAttachment()
-	attachment.SetFilename("ticket.png")
-	attachment.SetContent(qrcodeBase64)
-	message.AddAttachment(attachment)
-
 	log.Debug().Any("pt", plainTextContent.String()).Any("html", htmlContent.String()).Msg("sending email")
 
-	resp, err := a.SendGridClient.Send(message)
+	messagesInfo := []mailjet.InfoMessagesV31{
+		{
+			From: &mailjet.RecipientV31{
+				Email: "support@hsorectf.com",
+				Name:  "HSOreCTF Support",
+			},
+			To: &mailjet.RecipientsV31{
+				mailjet.RecipientV31{
+					Email: email,
+					Name:  "",
+				},
+			},
+			Subject:  subject,
+			TextPart: plainTextContent.String(),
+			HTMLPart: htmlContent.String(),
+			ReplyTo: &mailjet.RecipientV31{
+				Email: "support@hsorectf.com",
+				Name:  "HSOreCTF Support",
+			},
+			Attachments: &mailjet.AttachmentsV31{
+				mailjet.AttachmentV31{
+					Filename:      "ticket.png",
+					ContentType:   "image/png",
+					Base64Content: qrcodeBase64,
+				},
+			},
+		},
+	}
+
+	messages := mailjet.MessagesV31{Info: messagesInfo}
+
+	res, err := a.MailjetClient.SendMailV31(&messages)
 	if err != nil {
 		log.Err(err).Msg("failed to send email")
 		return err
-	} else if resp.StatusCode != http.StatusAccepted {
-		log.Error().
-			Int("status_code", resp.StatusCode).
-			Str("response_body", resp.Body).
-			Msg("error sending email")
-		return fmt.Errorf("error sending email (error code %d)", resp.StatusCode)
-	} else {
-		log.Info().
-			Int("status_code", resp.StatusCode).
-			Msg("successfully sent email")
-		return nil
 	}
+
+	if res.ResultsV31[0].Status != "success" {
+		log.Error().
+			Str("status_code", res.ResultsV31[0].Status).
+			Msg("error sending email")
+		return fmt.Errorf("error sending email: %s", res.ResultsV31[0].Status)
+	}
+
+	log.Info().
+		Str("status_code", res.ResultsV31[0].Status).
+		Msg("successfully sent email")
+	return nil
 }

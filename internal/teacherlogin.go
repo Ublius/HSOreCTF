@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 type Issuer string
@@ -93,7 +92,7 @@ func (a *Application) HandleTeacherLogin(w http.ResponseWriter, r *http.Request)
 	htmltemplate.Must(htmltemplate.ParseFS(emailTemplates, "emailtemplates/teacherlogin.html")).Execute(&htmlContent, templateData)
 
 	err = a.SendEmail(log, "Log in to OreSec HSOreCTF Registration",
-		mail.NewEmail(teacher.Name, emailAddress),
+		emailAddress, teacher.Name,
 		plainTextContent.String(),
 		htmlContent.String())
 	if err != nil {

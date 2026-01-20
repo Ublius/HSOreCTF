@@ -21,8 +21,11 @@ dev_mode: false
 # This will disable/enable wether teams can register or not.
 registration_enabled: false
 
-# The SendGrid API key to use for sending emails.
-sendgrid_api_key: SENDGRID_API_KEY
+# The Mailjet API key to use for sending emails.
+mailjet_api_key: MAILJET_API_KEY
+
+# The Mailjet API secret key to use for sending emails.
+mailjet_secret_key: MAILJET_SECRET_KEY
 
 # The URL to use for the healthcheck endpoint.
 healthcheck_url: null

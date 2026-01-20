@@ -15,7 +15,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 func (a *Application) GetTeacherAddMemberTemplate(r *http.Request) map[string]any {
@@ -87,7 +86,7 @@ func (a *Application) sendStudentEmail(ctx context.Context, studentEmail, studen
 	}
 
 	err = a.SendEmail(log, subject,
-		mail.NewEmail(studentName, studentEmail),
+		studentEmail, studentName,
 		plainTextContent.String(),
 		htmlContent.String())
 	if err != nil {

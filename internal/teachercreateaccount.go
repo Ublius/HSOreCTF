@@ -15,7 +15,6 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog/log"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 //go:embed emailtemplates/*
@@ -127,7 +126,7 @@ func (a *Application) HandleTeacherCreateAccount(w http.ResponseWriter, r *http.
 	htmltemplate.Must(htmltemplate.ParseFS(emailTemplates, "emailtemplates/teachercreateaccount.html")).Execute(&htmlContent, templateData)
 
 	err = a.SendEmail(log, "Confirm Email to Log In to OreSec HSOreCTF Registration",
-		mail.NewEmail(name, emailAddress),
+		emailAddress, name,
 		plainTextContent.String(),
 		htmlContent.String())
 	if err != nil {
