@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS students (
   dietaryrestrictions    TEXT,
   ctfdpassword           TEXT NOT NULL,
   -- campustour             BOOLEAN,
-  -- previouslyparticipated BOOLEAN NOT NULL DEFAULT FALSE,
+  previouslyparticipated BOOLEAN NOT NULL DEFAULT FALSE,
   emailconfirmed         BOOLEAN NOT NULL DEFAULT FALSE,
 
   -- Waivers

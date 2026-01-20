@@ -233,6 +233,8 @@ func (a *Application) Start() {
 	router.HandleFunc("GET /admin/sendctfdpasswords", a.HandleSendCTFdPasswords)
 	router.HandleFunc("GET /admin/ctfd/teams", a.HandleCTFdTeamsExport)
 	router.HandleFunc("GET /admin/ctfd/users", a.HandleCTFdUsersExport)
+	router.HandleFunc("GET /admin/manualcheckin", a.HandleManualCheckin)
+	router.HandleFunc("GET /admin/team-list", a.HandleTeamList)
 
 	// Volunteer pages
 	router.HandleFunc("GET /volunteer", a.ServeTemplate(a.Log, "volunteerhome.html", noArgs))

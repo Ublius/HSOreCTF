@@ -153,7 +153,7 @@
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
                   <th scope="col">Age</th>
-                  <!-- <th scope="col">Previously Participated</th> -->
+                  <th scope="col">Previously Participated</th>
                   <th scope="col">Parent/Guardian Email</th>
                   <th scope="col" class="text-center">Delete</th>
                 </tr>
@@ -164,6 +164,7 @@
                     <th scope="row">{{ .Name }}</th>
                     <td>{{ .Email }}</td>
                     <td>{{ .Age }}</td>
+                    <td>{{ if .PreviouslyParticipated }}Yes{{ else }}No{{ end }}</td>
                     <td>{{ .ParentEmail }}</td>
                     <td class="text-center">
                       <a href="/register/teacher/team/delete?team_id={{ $t.ID }}&email={{ .Email }}"

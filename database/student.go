@@ -10,12 +10,12 @@ func (d *Database) GetStudentByEmail(ctx context.Context, email string) (*Studen
 	var student Student
 	var parentEmail, signatory, dietaryRestrictions sql.NullString
 	err := d.DB.QueryRow(ctx, `
-		SELECT teamid, email, name, age, parentemail, signatory, ctfdpassword,
+		SELECT teamid, email, name, age, parentemail, signatory, previouslyparticipated, ctfdpassword,
 		EmailConfirmed, liabilitywaiver, computerusewaiver, dietaryrestrictions, qrcodesent, checkedin, ctfdpasswordsent
 		FROM students
 		WHERE email = $1
 	`, email).Scan(&student.TeamID, &student.Email, &student.Name, &student.Age,
-		&parentEmail, &signatory, &student.CTFdPassword, &student.EmailConfirmed,
+		&parentEmail, &signatory, &student.PreviouslyParticipated, &student.CTFdPassword, &student.EmailConfirmed,
 		&student.LiabilitySigned, &student.ComputerUseWaiverSigned,
 		&dietaryRestrictions, &student.QRCodeSent, &student.CheckedIn, &student.CTFdPasswordSent)
 	if err != nil {

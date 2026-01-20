@@ -78,6 +78,7 @@ func (a *Application) GetAdminTeamsTemplate(r *http.Request) map[string]any {
 	var beginnerInPersonTeams, advancedInPersonTeams int
 	var beginnerInPersonStudents, advancedInPersonStudents int
 	var emailConfirmed, formsSigned int
+	var checkedIn int
 	for _, team := range teamsWithTeachers {
 		teams++
 		// if team.Division == database.DivisionBeginner {
@@ -108,6 +109,10 @@ func (a *Application) GetAdminTeamsTemplate(r *http.Request) map[string]any {
 
 			if member.LiabilitySigned {
 				formsSigned++
+			}
+
+			if member.CheckedIn {
+				checkedIn++
 			}
 		}
 	}
@@ -147,6 +152,7 @@ func (a *Application) GetAdminTeamsTemplate(r *http.Request) map[string]any {
 		// "CampusTourStudents":     campusTour,
 		"EmailConfirmedStudents": emailConfirmed,
 		"FormsSignedStudents":    formsSigned,
+		"CheckedInStudents":      checkedIn,
 	}
 }
 
@@ -682,4 +688,67 @@ func (a *Application) HandleCTFdTeamsExport(w http.ResponseWriter, r *http.Reque
 		writer.Write(parts)
 	}
 	writer.Flush()
+}
+
+func (a *Application) HandleManualCheckin(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	tok, err := r.Cookie("admin_token")
+	if err != nil {
+		a.Log.Warn().Err(err).Msg("failed to get admin token")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
+		a.Log.Warn().Err(err).Msg("user is not admin!")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	email := r.URL.Query().Get("email")
+	a.DB.SignFormsForStudent(ctx, email, "SIGNED IN PERSON")
+	a.DB.CheckInStudent(ctx, email)
+	w.Write([]byte("Checked in " + email))
+}
+
+func (a *Application) HandleTeamList(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	tok, err := r.Cookie("admin_token")
+	if err != nil {
+		a.Log.Warn().Err(err).Msg("failed to get admin token")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if isAdmin, err := a.isAdminByToken(tok.Value); err != nil || !isAdmin {
+		a.Log.Warn().Err(err).Msg("user is not admin!")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	onlyFirstTime := r.URL.Query().Get("firsttime") == "true"
+
+	teamsWithTeachers, err := a.DB.GetAdminTeamsWithTeacherName(ctx)
+	if err != nil {
+		a.Log.Err(err).Msg("failed to get teams with teachers")
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	for _, team := range teamsWithTeachers {
+		isOnlyFirstTime := true
+		for _, member := range team.Members {
+			if member.PreviouslyParticipated {
+				isOnlyFirstTime = false
+			}
+		}
+		if onlyFirstTime && !isOnlyFirstTime {
+			continue
+		}
+
+		w.Write([]byte(team.Name + "\n"))
+		for _, member := range team.Members {
+			w.Write([]byte("  " + member.Name + " (" + member.Email + ")\n"))
+		}
+	}
 }
