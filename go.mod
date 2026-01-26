@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/golang-jwt/jwt/v4 v4.5.2
-	github.com/mailjet/mailjet-apiv3-go/v4 v4.0.1
+	github.com/mailjet/mailjet-apiv3-go/v4 v4.0.8
 	github.com/mattn/go-sqlite3 v1.14.33
 	github.com/rs/zerolog v1.34.0
 	github.com/sethvargo/go-password v0.3.1
@@ -18,7 +18,6 @@ require (
 	github.com/coreos/go-systemd/v22 v22.5.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/kr/pretty v0.3.1 // indirect
-	github.com/mailjet/mailjet-apiv3-go/v3 v3.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/petermattis/goid v0.0.0-20260113132338-7c7de50cc741 // indirect
